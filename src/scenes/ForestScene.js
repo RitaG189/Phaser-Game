@@ -47,14 +47,16 @@ export class ForestScene extends Phaser.Scene {
 
 
         // add player character 
-
-        this.player = this.physics.add.sprite(30, 368, "main");
+                                            
+        this.player = this.physics.add.sprite(30, 369, "main");
         this.player.setSize(20, 30, true);
 
 
         // add monster
 
-        this.monster = this.physics.add.image(700, 368, "monster");
+        this.monster = this.physics.add.sprite(520, 312, "monster_sprite");
+        this.monster.setSize(15, 15, true);
+        this.monster.body.moves = false;
     
         
 
@@ -65,6 +67,8 @@ export class ForestScene extends Phaser.Scene {
 
         this.monster.setCollideWorldBounds(true);
         this.physics.add.collider(this.monster, platforms);
+
+        this.physics.add.collider(this.player, this.monster);
 
 
         // animations
@@ -79,7 +83,7 @@ export class ForestScene extends Phaser.Scene {
             }),
             frameRate: 10,
             repeat: -1,
-        })
+        });
 
         this.anims.create({
             key: 'left',
@@ -89,22 +93,32 @@ export class ForestScene extends Phaser.Scene {
             }),
             frameRate: 15,
             repeat: -1,
-        })
+        });
 
             // hearts
 
-         
-        /*    
         this.anims.create({
-            key: 'lose',
+            key: 'lose_heart',
             frames: this.anims.generateFrameNumbers("heart",
             {
                 frames: [0,1,2,3]
             }),
             frameRate: 10,
             repeat: -1,
+        });
+
+            // monster
+
+        this.anims.create({
+            key: "idle_monster",
+            frames: this.anims.generateFrameNumbers("monster_sprite",
+            {
+                frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }),
+            frameRate: 12,
+            repeat: -1,
         })
-        */
+        
         
 
         // fix camera to player
@@ -144,8 +158,9 @@ export class ForestScene extends Phaser.Scene {
         
             // monster
 
-        this.monster.setVelocityX(80);
+        //this.monster.setVelocityX(80);
 
+        this.monster.anims.play("idle_monster", true);   
         
 
         // jump
@@ -157,7 +172,7 @@ export class ForestScene extends Phaser.Scene {
  
         }
 
-        // Lose heart
+        // lose heart
 
         //this.player.anims.play("lose", true);
 

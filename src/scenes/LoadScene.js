@@ -39,12 +39,12 @@ export class LoadScene extends Phaser.Scene {
             frameHeight: 32,
         });
 
-        /*
-        this.load.spritesheet("monster", "assets/Sprites/monster_sprite.png", {
+        
+        this.load.spritesheet("monster_sprite", "assets/Sprites/monster_sprite.png", {
             frameWidth: 32,
             frameHeight: 32,
         });
-        */
+        
 
         this.load.image("monster", "./assets/Sprites/monster.png");
         
