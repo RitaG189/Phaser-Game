@@ -142,13 +142,26 @@ export class ForestScene extends Phaser.Scene {
         this.player.setVelocityX(0);
 
         if (cursors.left.isDown) {
+
             this.player.setVelocityX(-100);
-            this.player.anims.play("left", true);
+            
+            if(this.player.body.touching.down){
+                this.player.anims.play("left", true);
+            }
+            else {
+                this.player.anims.stop();
+            }
         }
         else if (cursors.right.isDown) 
         {
             this.player.setVelocityX(100);
-            this.player.anims.play("right", true);
+
+            if(this.player.body.touching.down){
+                this.player.anims.play("right", true);
+            }
+            else {
+                this.player.anims.stop();
+            }
         }  
 
 
@@ -158,18 +171,15 @@ export class ForestScene extends Phaser.Scene {
         
             // monster
 
-        //this.monster.setVelocityX(80);
-
         this.monster.anims.play("idle_monster", true);   
         
 
         // jump
 
-        if ((cursors.space.isDown || cursors.up.isDown) && this.player.body.touching.down) 
-        {
+        if ((cursors.space.isDown || cursors.up.isDown) && this.player.body.touching.down){
             this.player.setVelocityY(-330);
             //this.delayJump();
- 
+
         }
 
         // lose heart
