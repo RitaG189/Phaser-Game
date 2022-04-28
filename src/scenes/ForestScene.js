@@ -111,7 +111,7 @@ export class ForestScene extends Phaser.Scene {
 
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setBounds(0, 0, 800, 480);
-        //this.cameras.main.setZoom(2, 2);
+        this.cameras.main.setZoom(2, 2);
        
     }
         
