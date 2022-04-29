@@ -34,7 +34,9 @@ export class ForestScene extends Phaser.Scene {
         this.heart1 = this.add.sprite(220, 138, "heart_sprite").setDepth(1).setScrollFactor(0);
         this.heart2 = this.add.sprite(236, 138, "heart_sprite").setDepth(1).setScrollFactor(0);
         this.heart3 = this.add.sprite(252, 138, "heart_sprite").setDepth(1).setScrollFactor(0);
-        
+        this.hudCoin = this.add.sprite(220, 160, "coin").setDepth(1).setScrollFactor(0);
+
+
         // add scenario
         
         this.add.image(0, 0, 'forest').setOrigin(0).setDepth(0);
@@ -61,9 +63,10 @@ export class ForestScene extends Phaser.Scene {
     
         // add coin
 
-        this.coin = this.physics.add.sprite(640, 220, "coin");
+        this.coin = this.physics.add.sprite(665, 220, "coin");
         this.coin.setSize(15, 17, true);
         this.gotCoin = false;
+        this.coinTotal = 0;
         
         
 
@@ -147,9 +150,6 @@ export class ForestScene extends Phaser.Scene {
 
         this.health = 3;
         this.damage = 1;
-
-        this.collision = false;
-
         
     }
         
@@ -160,8 +160,6 @@ export class ForestScene extends Phaser.Scene {
 
         const speed = 100;
         const jump = -330;
-
-    
         
 
         // movement
@@ -244,10 +242,12 @@ export class ForestScene extends Phaser.Scene {
 
         // sum coins
 
+        this.coinScore = this.add.text(238, 153, "0", 18).setScrollFactor(0);
+
         if (!this.gotCoin) {
             this.coin.anims.play("spinning", true);
         } 
-        else  if (this.coin){
+        else if (this.coin){
            
             this.coin.destroy();
             this.coinTotal += 1;
@@ -258,10 +258,7 @@ export class ForestScene extends Phaser.Scene {
     
     handlePlayerEnemyCollision() {
 
-    //this.player.body.moves = false;
-
         this.player.setTint(0xff0000);
-        //this.cameras.main.shake(60, 0.05 );
 
         this.time.addEvent({
             delay: 500,
@@ -303,6 +300,7 @@ export class ForestScene extends Phaser.Scene {
 
 
         this.gotCoin = true;
+        this.coin += 1;
     }
 
 }

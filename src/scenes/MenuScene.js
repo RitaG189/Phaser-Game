@@ -55,8 +55,8 @@ export class MenuScene extends Phaser.Scene {
         playButton.on("pointerover", () => {
             hoverSprite.setVisible(true);
             hoverSprite.play("spinning");
-            hoverSprite.x = playButton.x - playButton.width;
-            hoverSprite.y = playButton.y;
+            hoverSprite.x = 300;
+            hoverSprite.y = 120;
         })
 
         playButton.on("pointerup", () => {
