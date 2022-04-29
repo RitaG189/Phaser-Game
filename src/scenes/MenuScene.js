@@ -31,7 +31,7 @@ export class MenuScene extends Phaser.Scene {
 
         // create sprites
 
-        let hoverSprite = this.add.sprite("coin_menu");
+        let hoverSprite = this.add.sprite("coin");
         hoverSprite.setScale(2);
         
 
@@ -41,7 +41,7 @@ export class MenuScene extends Phaser.Scene {
             key: "spinning",
             frameRate: 8,
             repeat: -1, //repeat forever
-            frames: this.anims.generateFrameNumbers("coin_menu", {
+            frames: this.anims.generateFrameNumbers("coin", {
                 frames: [0, 1, 2, 3, 4, 5]
             })
         })

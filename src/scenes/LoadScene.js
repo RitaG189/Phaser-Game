@@ -28,7 +28,7 @@ export class LoadScene extends Phaser.Scene {
             frameWidth: 32
         });
 
-        this.load.spritesheet("coin_menu", "./assets/coin-sheet.png", {
+        this.load.spritesheet("coin", "./assets/coin-sheet.png", {
             frameHeight: 32,
             frameWidth: 32
         });

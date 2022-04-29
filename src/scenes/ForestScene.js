@@ -57,9 +57,14 @@ export class ForestScene extends Phaser.Scene {
 
         this.monster = this.physics.add.sprite(520, 312, "monster_sprite");
         this.monster.setSize(15, 15, true);
-        this.monster.body.moves = false;
         this.monsterAlive = true;
     
+        // add coin
+
+        this.coin = this.physics.add.sprite(640, 220, "coin");
+        this.coin.setSize(15, 17, true);
+        this.gotCoin = false;
+        
         
 
         // collisions
@@ -69,6 +74,13 @@ export class ForestScene extends Phaser.Scene {
 
         this.monster.setCollideWorldBounds(true);
         this.physics.add.collider(this.monster, platforms);
+
+        this.coin.setCollideWorldBounds(true);
+        this.physics.add.collider(this.coin, platforms);
+
+        this.physics.add.collider(this.player, this.monster, this.handlePlayerEnemyCollision, null, this);
+        
+        this.physics.add.collider(this.player, this.coin, this.handlePlayerCoinCollision, null, this);
 
         
 
@@ -148,7 +160,9 @@ export class ForestScene extends Phaser.Scene {
 
         const speed = 100;
         const jump = -330;
-        this.collision = false;
+
+    
+        
 
         // movement
 
@@ -189,11 +203,6 @@ export class ForestScene extends Phaser.Scene {
         
             // monster
 
-
-
-        this.physics.add.collider(this.player, this.monster, this.handlePlayerEnemyCollision, null, this);
-        
-
         if (this.monsterAlive) {
             this.monster.anims.play("idle_monster", true);  
         }    
@@ -201,10 +210,7 @@ export class ForestScene extends Phaser.Scene {
             this.monster.destroy();
         }
          
-        this.player.body.moves = true;
 
-        
-        
         // jump
 
         if ((cursors.space.isDown || cursors.up.isDown) && this.player.body.touching.down){
@@ -236,12 +242,23 @@ export class ForestScene extends Phaser.Scene {
             this.heart1.visible = false; 
         }
 
+        // sum coins
+
+        if (!this.gotCoin) {
+            this.coin.anims.play("spinning", true);
+        } 
+        else  if (this.coin){
+           
+            this.coin.destroy();
+            this.coinTotal += 1;
+        } 
+
     }
 
     
     handlePlayerEnemyCollision() {
 
-    this.player.body.moves = false;
+    //this.player.body.moves = false;
 
         this.player.setTint(0xff0000);
         //this.cameras.main.shake(60, 0.05 );
@@ -281,6 +298,12 @@ export class ForestScene extends Phaser.Scene {
 
     }
     */
+
+    handlePlayerCoinCollision() {
+
+
+        this.gotCoin = true;
+    }
 
 }
 
