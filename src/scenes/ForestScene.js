@@ -10,6 +10,7 @@ export class ForestScene extends Phaser.Scene {
             key: CST.SCENES.PLAY});
     }
 
+    
 
     preload ()
     {
@@ -57,6 +58,7 @@ export class ForestScene extends Phaser.Scene {
         this.monster = this.physics.add.sprite(520, 312, "monster_sprite");
         this.monster.setSize(15, 15, true);
         this.monster.body.moves = false;
+        this.monsterAlive = true;
     
         
 
@@ -68,7 +70,7 @@ export class ForestScene extends Phaser.Scene {
         this.monster.setCollideWorldBounds(true);
         this.physics.add.collider(this.monster, platforms);
 
-        this.physics.add.collider(this.player, this.monster);
+        
 
 
         // animations
@@ -99,11 +101,11 @@ export class ForestScene extends Phaser.Scene {
 
         this.anims.create({
             key: 'lose_heart',
-            frames: this.anims.generateFrameNumbers("heart",
+            frames: this.anims.generateFrameNumbers("heart_sprite",
             {
                 frames: [0,1,2,3]
             }),
-            frameRate: 10,
+            frameRate: 8,
             repeat: -1,
         });
 
@@ -127,6 +129,16 @@ export class ForestScene extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, 800, 480);
         this.cameras.main.setZoom(2, 2);
        
+
+        
+        // hearts
+
+        this.health = 3;
+        this.damage = 1;
+
+        this.collision = false;
+
+        
     }
         
     
@@ -134,16 +146,22 @@ export class ForestScene extends Phaser.Scene {
     update() 
     {
 
+        const speed = 100;
+        const jump = -330;
+        this.collision = false;
+
         // movement
 
             // player
 
         const cursors = this.input.keyboard.createCursorKeys();
-        this.player.setVelocityX(0);
+
+        this.player.body.velocity.x = 0;
+        
 
         if (cursors.left.isDown) {
 
-            this.player.setVelocityX(-100);
+            this.player.setVelocityX(-speed);
             
             if(this.player.body.touching.down){
                 this.player.anims.play("left", true);
@@ -154,7 +172,7 @@ export class ForestScene extends Phaser.Scene {
         }
         else if (cursors.right.isDown) 
         {
-            this.player.setVelocityX(100);
+            this.player.setVelocityX(speed);
 
             if(this.player.body.touching.down){
                 this.player.anims.play("right", true);
@@ -171,36 +189,96 @@ export class ForestScene extends Phaser.Scene {
         
             // monster
 
-        this.monster.anims.play("idle_monster", true);   
+
+
+        this.physics.add.collider(this.player, this.monster, this.handlePlayerEnemyCollision, null, this);
         
 
+        if (this.monsterAlive) {
+            this.monster.anims.play("idle_monster", true);  
+        }    
+        else if(!this.monsterAlive) {
+            this.monster.destroy();
+        }
+         
+        this.player.body.moves = true;
+
+        
+        
         // jump
 
         if ((cursors.space.isDown || cursors.up.isDown) && this.player.body.touching.down){
-            this.player.setVelocityY(-330);
+            this.player.setVelocityY(jump);
             //this.delayJump();
 
         }
 
-        // lose heart
+        // lose health
 
-        //this.player.anims.play("lose", true);
+        if (this.health === 3) {
+            this.heart3.visible = true;
+            this.heart2.visible = true;
+            this.heart1.visible = true;
+        }
+        else if (this.health === 2) {
+            this.heart3.visible = false;
+            this.heart2.visible = true;
+            this.heart1.visible = true;
+        }
+        else if (this.health === 1) {
+            this.heart3.visible = false;
+            this.heart2.visible = false;
+            this.heart1.visible = true;
+        }
+        else if (this.health === 0) {
+            this.heart3.visible = false;
+            this.heart2.visible = false;
+            this.heart1.visible = false; 
+        }
 
     }
 
     
+    handlePlayerEnemyCollision() {
+
+    this.player.body.moves = false;
+
+        this.player.setTint(0xff0000);
+        //this.cameras.main.shake(60, 0.05 );
+
+        this.time.addEvent({
+            delay: 500,
+            callback: () => {
+                this.player.clearTint();
+                
+            },
+            callbackScope: this,
+            loop: false
+        })
+
+        this.monsterAlive = false;
+
+        this.health -= 1;
+
+        console.log(this.health);
+    
+    
+    }
 
     /*              -- Delay no salto 
     delayJump() {
 
+        this.time.addEvent({
+            delay: 500,
+            callback: () => {
+                console.log("waiting")
+                
+            },
+            callbackScope: this,
+            loop: false
+        })
 
-        if(jump > game.time.now)
-        {
-            return;
-        }
 
-        jump = game.time.now + 1000; // wait at least 1 second (1000ms) to next shot
-        
     }
     */
 
