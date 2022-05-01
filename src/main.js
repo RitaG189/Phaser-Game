@@ -4,11 +4,12 @@ import { FirstCastleScene } from "./scenes/FirstCastleScene.js";
 import { ForestScene } from "./scenes/ForestScene.js";
 
 let game = new Phaser.Game({
+    
     width: 800,
     height: 480,
     type: Phaser.AUTO,
     scene: [
-        LoadScene, MenuScene, FirstCastleScene, ForestScene 
+        LoadScene, MenuScene, FirstCastleScene, ForestScene
     ],
     physics: {
         default: 'arcade',
