@@ -5,8 +5,8 @@ import { ForestScene } from "./scenes/ForestScene.js";
 
 let game = new Phaser.Game({
     
-    width: 800,
-    height: 480,
+    width: 1000,
+    height: 600,
     type: Phaser.AUTO,
     scene: [
         LoadScene, MenuScene, FirstCastleScene, ForestScene
@@ -22,4 +22,7 @@ let game = new Phaser.Game({
         pixelArt: true
     }
 
-});
+
+})
+
+

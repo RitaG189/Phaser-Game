@@ -31,6 +31,9 @@ export class ForestScene extends Phaser.Scene {
     create ()
     {
 
+    // close tutorial
+
+
         // add scenario
         
         this.add.image(0, 0, "forest").setOrigin(0).setDepth(0)
@@ -45,12 +48,40 @@ export class ForestScene extends Phaser.Scene {
         
         // HUD
 
-        this.heart1 = this.add.sprite(220, 138, "heart_sprite").setDepth(1).setScrollFactor(0)
-        this.heart2 = this.add.sprite(236, 138, "heart_sprite").setDepth(1).setScrollFactor(0)
-        this.heart3 = this.add.sprite(252, 138, "heart_sprite").setDepth(1).setScrollFactor(0)
-        this.scoreCoin = this.add.image(220, 160, "coin").setDepth(1).setScrollFactor(0)
+        this.heart1 = this.add.sprite(270, 176, "heart_sprite").setDepth(1).setScrollFactor(0)
+        this.heart2 = this.add.sprite(286, 176, "heart_sprite").setDepth(1).setScrollFactor(0)
+        this.heart3 = this.add.sprite(302, 176, "heart_sprite").setDepth(1).setScrollFactor(0)
+        this.scoreCoin = this.add.image(270, 200, "coin").setDepth(1).setScrollFactor(0)
 
-        this.displayScore = this.add.text(236, 153, "0").setDepth(1).setScrollFactor(0)
+        this.displayScore = this.add.text(286, 193, "0").setDepth(1).setScrollFactor(0)
+
+        // tutorial 
+
+        this.tutorial = this.add.image(256, 326, "tutorial1").setDepth(1).setScale(2)
+        let okButton = this.add.image(256, 411, "okButton").setDepth(1).setScale(2)
+        
+        
+        
+        okButton.setInteractive();
+
+        okButton.on("pointerover", () => {
+            this.pressedButton = this.add.image(256, 411, "pressedOkButton").setDepth(1).setScale(2)
+            this.pressedButton.setVisible(true);
+        })
+
+        okButton.on("pointerup", () => {
+            okButton.destroy()
+            this.pressedButton.destroy()
+            this.tutorial.destroy()
+        })
+
+        okButton.on("pointerout", () => {
+            this.pressedButton.setVisible(false);
+        })
+
+
+
+
 
 
         // add player character 
@@ -115,12 +146,6 @@ export class ForestScene extends Phaser.Scene {
         this.cameras.main.setZoom(2, 2)
 
 
-        // shoot
-    
-        //this.orb = this.physics.add.group()
-
-        //this.orb.create()
-
         
     }
 
@@ -134,13 +159,15 @@ export class ForestScene extends Phaser.Scene {
 
         this.displayScore.setText(this.score)
 
+
+
         // movement
 
             // player
 
         const cursors = this.input.keyboard.createCursorKeys()
 
-        this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+        this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
 
 
         
@@ -359,10 +386,15 @@ export class ForestScene extends Phaser.Scene {
         this.rightShot.destroy()
     }
 
-    handleCollisionShotMonster() {
+    handleCollisionShotMonster() {      // tentar meter monstro em group
+        
         this.monsterAlive = false
         this.shot.visible = false   
         this.score += 1     // colocar moeda a saltar
+
+        
+
+
     }
     handleCollisionShotMonster2() {
         this.monster2Alive = false
@@ -373,4 +405,7 @@ export class ForestScene extends Phaser.Scene {
 
 }
 
+
+// ter barra de power em que sempre que gasta x power tem de ir buscar o foguinho 
+// recuperar
 

@@ -17,13 +17,18 @@ export class LoadScene extends Phaser.Scene {
 
         // load images and spritesheets
 
-        this.load.image("background_menu", "./assets/background.png");
+        this.load.image("background_menu", "./assets/background.jpg");
 
 
         this.load.image("start_button", "./assets/start.png");
         this.load.image("options_button", "./assets/options.png");
         
         this.load.image("heart", "./assets/HUD/heart.png");
+
+        this.load.image("tutorial1", "./assets/HUD/tutorial1.png")
+        
+        this.load.image("okButton", "./assets/HUD/ok_button.png")
+        this.load.image("pressedOkButton", "./assets/HUD/pressed_ok_button.png")
 
         this.load.spritesheet("heart_sprite", "./assets/HUD/heart_sprite.png", {
             frameHeight: 32,
@@ -119,12 +124,6 @@ export class LoadScene extends Phaser.Scene {
             repeat: -1,
         });
 
-        // HUD
-
-        this.heart1 = this.add.sprite(220, 138, "heart_sprite").setDepth(1).setScrollFactor(0);
-        this.heart2 = this.add.sprite(236, 138, "heart_sprite").setDepth(1).setScrollFactor(0);
-        this.heart3 = this.add.sprite(252, 138, "heart_sprite").setDepth(1).setScrollFactor(0);
-        this.hudCoin = this.add.sprite(220, 160, "coin").setDepth(1).setScrollFactor(0);
     
 
         this.scene.start(CST.SCENES.MENU);

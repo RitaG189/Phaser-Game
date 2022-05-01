@@ -32,7 +32,7 @@ export class MenuScene extends Phaser.Scene {
         // create sprites
 
         let hoverSprite = this.add.sprite("coin");
-        hoverSprite.setScale(1.2);
+        hoverSprite.setScale(2);
         
 
  
@@ -46,8 +46,8 @@ export class MenuScene extends Phaser.Scene {
         playButton.on("pointerover", () => {
             hoverSprite.setVisible(true);
             hoverSprite.play("spinning");
-            hoverSprite.x = 300;
-            hoverSprite.y = 120;
+            hoverSprite.x = 380;
+            hoverSprite.y = 146;
         })
 
         playButton.on("pointerup", () => {
