@@ -46,6 +46,8 @@ export class ForestScene extends Phaser.Scene {
         this.platforms.create(664, 300, "platform").refreshBody()
         this.platforms.create(816, 340, "wall").refreshBody()
 
+        this.portal = this.physics.add.sprite(760, 358, "portal").setScale(1.6)
+
         
         // HUD
 
@@ -141,7 +143,14 @@ export class ForestScene extends Phaser.Scene {
 
         this.cameras.main.startFollow(this.player)
         this.cameras.main.setBounds(0, 0, 800, 480)
-        this.cameras.main.setZoom(2, 2)
+        //this.cameras.main.setZoom(2, 2)
+
+        // portal
+
+        this.portal.setCollideWorldBounds(true)
+        this.physics.add.collider(this.portal, this.platforms)
+        this.physics.add.overlap(this.player, this.portal, this.handlePlayerPortalCollision, null, this)
+
 
 
         
@@ -280,12 +289,16 @@ export class ForestScene extends Phaser.Scene {
         }
 
 
+        // portal
+
+        this.portal.anims.play("portal", true)
+
 
     }
 
     
-    handlePlayerEnemyCollision() {
-
+    handlePlayerEnemyCollision() 
+    {
         this.player.setTint(0xff0000)
 
         this.time.addEvent({
@@ -306,8 +319,8 @@ export class ForestScene extends Phaser.Scene {
     
     }
 
-    handlePlayerEnemyCollision2() {
-
+    handlePlayerEnemyCollision2() 
+    {
         this.player.setTint(0xff0000)
 
         this.time.addEvent({
@@ -330,20 +343,21 @@ export class ForestScene extends Phaser.Scene {
     }
 
     
-    collectCoin() {
-
+    collectCoin() 
+    {
         this.collectedCoin1 = true
         this.score += 1
     }
 
-    collectCoin2() {
-
+    collectCoin2() 
+    {
         this.collectedCoin2 = true
         this.score += 1
     }
 
 
-    shoot() {
+    shoot() 
+    {
 
         console.log("attack")
 
@@ -376,30 +390,43 @@ export class ForestScene extends Phaser.Scene {
 
     }
 
-    handleShotCollisionLeft() {
+    handleShotCollisionLeft() 
+    {
         this.leftShot.destroy()
     }
 
-    handleShotCollisionRight() {
+    handleShotCollisionRight() 
+    {
         this.rightShot.destroy()
     }
 
-    handleCollisionShotMonster() {      // tentar meter monstro em group
+    handleCollisionShotMonster() 
+    {      // tentar meter monstro em group
         
         this.monsterAlive = false
         this.shot.visible = false   
         this.score += 1     // colocar moeda a saltar
-
-        
-
-
     }
-    handleCollisionShotMonster2() {
+
+    handleCollisionShotMonster2() 
+    {
         this.monster2Alive = false
         this.shot.visible = false
         this.score += 1     // colocar moeda a saltar
     }
 
+    handlePlayerPortalCollision() 
+    {
+
+        console.log("clicar seta cima para entrar");
+
+        var up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+
+        if (Phaser.Input.Keyboard.JustDown(up))
+        {
+            console.log("next level");
+        }
+    }
 
 }
 

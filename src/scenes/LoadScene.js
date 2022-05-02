@@ -52,6 +52,19 @@ export class LoadScene extends Phaser.Scene {
             frameHeight: 32,
         });
 
+        /*
+        this.load.spritesheet("portalIdle", "assets/Sprites/portal-idle.png" , {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+        */
+
+        this.load.spritesheet("portal", "assets/Sprites/portal.png", {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
+
         this.load.image("right-shot", "assets/Sprites/shot-right.png")
         this.load.image("left-shot", "assets/Sprites/shot-left.png")
         
@@ -123,6 +136,16 @@ export class LoadScene extends Phaser.Scene {
             frameRate: 15,
             repeat: -1,
         });
+
+        this.anims.create({
+            key: "portal",
+            frames: this.anims.generateFrameNumbers("portal", 
+            {
+                frames: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+            }),
+            frameRate: 10,
+            repeat: -1,
+        })
 
     
 
