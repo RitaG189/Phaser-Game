@@ -70,6 +70,8 @@ export class LoadScene extends Phaser.Scene {
         
 
         this.load.image("monster", "./assets/Sprites/monster.png");
+
+        this.load.image("level-completed", "assets/Sprites/HUD/level-completed.png")
         
 
         // create loading bar
@@ -89,6 +91,17 @@ export class LoadScene extends Phaser.Scene {
         this.load.on("complete", () => {
             console.log("done");
         })
+
+
+
+        // choose level
+
+        this.load.image("background-levels", "assets/HUD/Levels/background-levels.png")
+        this.load.image("level1", "assets/HUD/Levels/level1.png")
+        this.load.image("level1-pressed", "assets/HUD/Levels/level1-pressed.png")
+        this.load.image("level2", "assets/HUD/Levels/level2.png")
+        this.load.image("level2-pressed", "assets/HUD/Levels/level2-pressed.png")
+        this.load.image("level2-locked", "assets/HUD/Levels/level2-locked.png")
     }
 
     create() {

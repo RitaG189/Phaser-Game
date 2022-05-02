@@ -7,7 +7,7 @@ export class ForestScene extends Phaser.Scene {
     constructor(game) 
     {
         super({ 
-            key: CST.SCENES.PLAY})
+            key: CST.SCENES.LEVEL1})
     }
 
 
@@ -46,7 +46,7 @@ export class ForestScene extends Phaser.Scene {
         this.platforms.create(664, 300, "platform").refreshBody()
         this.platforms.create(816, 340, "wall").refreshBody()
 
-        this.portal = this.physics.add.sprite(760, 358, "portal").setScale(1.6)
+        this.portal = this.physics.add.sprite(760, 358, "portal").setScale(1.8)
 
         
         // HUD
@@ -143,7 +143,7 @@ export class ForestScene extends Phaser.Scene {
 
         this.cameras.main.startFollow(this.player)
         this.cameras.main.setBounds(0, 0, 800, 480)
-        //this.cameras.main.setZoom(2, 2)
+        this.cameras.main.setZoom(2, 2)
 
         // portal
 
@@ -424,7 +424,7 @@ export class ForestScene extends Phaser.Scene {
 
         if (Phaser.Input.Keyboard.JustDown(up))
         {
-            console.log("next level");
+            this.lvlCompleted = this.add.image(40, 40, "level-completed")
         }
     }
 

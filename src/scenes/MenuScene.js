@@ -17,7 +17,7 @@ export class MenuScene extends Phaser.Scene {
 
         // create images & buttons
 
-        this.add.image(-50, 0, "background_menu").setOrigin(0);
+        this.add.image(0, 0, "background_menu").setOrigin(0);
 
 
 
@@ -35,10 +35,6 @@ export class MenuScene extends Phaser.Scene {
         hoverSprite.setScale(2);
         
 
- 
-
-
-
         // make image buttons interactive
 
         playButton.setInteractive();
@@ -51,7 +47,7 @@ export class MenuScene extends Phaser.Scene {
         })
 
         playButton.on("pointerup", () => {
-            this.scene.start(CST.SCENES.PLAY);
+            this.scene.launch(CST.SCENES.LEVELS);
         })
 
         playButton.on("pointerout", () => {

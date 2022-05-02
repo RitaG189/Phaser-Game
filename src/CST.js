@@ -2,7 +2,8 @@ export const CST = {
     SCENES: {
         LOAD: "LOAD",
         MENU: "MENU",
-        PLAY: "PLAY",
+        LEVELS: "LEVELS",
+        LEVEL1: "LEVEL1",
         CASTLE: "CASTLE"
     }
 }
