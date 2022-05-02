@@ -44,6 +44,7 @@ export class ForestScene extends Phaser.Scene {
         this.platforms.create(416, 352, "forest_borders3").setOrigin(0).refreshBody()
         this.platforms.create(448, 320, "forest_borders4").setOrigin(0).refreshBody()
         this.platforms.create(664, 300, "platform").refreshBody()
+        this.platforms.create(816, 340, "wall").refreshBody()
 
         
         // HUD
@@ -78,9 +79,6 @@ export class ForestScene extends Phaser.Scene {
         okButton.on("pointerout", () => {
             this.pressedButton.setVisible(false);
         })
-
-
-
 
 
 

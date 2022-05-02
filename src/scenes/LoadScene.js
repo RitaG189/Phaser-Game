@@ -18,7 +18,7 @@ export class LoadScene extends Phaser.Scene {
         // load images and spritesheets
 
         this.load.image("background_menu", "./assets/background.jpg");
-
+        this.load.image("wall", "./assets/Platforms/end-wall.png")
 
         this.load.image("start_button", "./assets/start.png");
         this.load.image("options_button", "./assets/options.png");
