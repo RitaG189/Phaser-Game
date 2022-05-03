@@ -17,10 +17,10 @@ export class LoadScene extends Phaser.Scene {
 
         // load images and spritesheets
 
-        this.load.image("background_menu", "./assets/background.jpg");
+        this.load.image("background_menu", "./assets/Backgrounds/background.jpg");
         this.load.image("wall", "./assets/Platforms/end-wall.png")
 
-        this.load.image("start_button", "./assets/start.png");
+        this.load.image("start_button", "./assets/HUD/start.png");
         this.load.image("options_button", "./assets/options.png");
         
         this.load.image("heart", "./assets/HUD/heart.png");
@@ -30,30 +30,50 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("okButton", "./assets/HUD/ok_button.png")
         this.load.image("pressedOkButton", "./assets/HUD/pressed_ok_button.png")
 
-        this.load.spritesheet("heart_sprite", "./assets/HUD/heart_sprite.png", {
+        this.load.image("finish-button", "./assets/HUD/finish-button.png")
+        this.load.image("finish-button-pressed", "./assets/HUD/finish-button-pressed.png")
+
+        this.load.image("3-stars", "./assets/HUD/3-stars.png")
+        this.load.image("2-stars", "./assets/HUD/2-stars.png")
+        this.load.image("1-stars", "./assets/HUD/1-stars.png")
+        this.load.image("0-stars", "./assets/HUD/0-stars.png")
+
+
+        this.load.spritesheet("star", "./assets/HUD/stars.png", 
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        }) 
+
+        this.load.spritesheet("heart_sprite", "./assets/HUD/heart_sprite.png", 
+        {
             frameHeight: 32,
             frameWidth: 32
         });
 
-        this.load.spritesheet("coin", "./assets/HUD/coin-sheet.png", {
+        this.load.spritesheet("coin", "./assets/HUD/coin-sheet.png", 
+        {
             frameHeight: 32,
             frameWidth: 32
         });
 
         
-        this.load.spritesheet('main', './assets/Sprites/Main.png', { 
+        this.load.spritesheet('main', './assets/Sprites/Main.png', 
+        { 
             frameWidth: 32, 
             frameHeight: 32,
         });
 
         
-        this.load.spritesheet("monster_sprite", "assets/Sprites/monster_sprite.png", {
+        this.load.spritesheet("monster_sprite", "assets/Sprites/monster_sprite.png", 
+        {
             frameWidth: 32,
             frameHeight: 32,
         });
-        
 
-        this.load.spritesheet("portal", "assets/Sprites/portal.png", {
+
+        this.load.spritesheet("portal", "assets/Sprites/portal.png", 
+        {
             frameWidth: 32,
             frameHeight: 32
         })
@@ -66,6 +86,7 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("monster", "./assets/Sprites/monster.png");
 
         this.load.image("level-completed", "assets/HUD/level-completed.png")
+
         
 
         // create loading bar
@@ -153,7 +174,6 @@ export class LoadScene extends Phaser.Scene {
             frameRate: 10,
             repeat: -1,
         })
-
     
 
         this.scene.start(CST.SCENES.MENU);

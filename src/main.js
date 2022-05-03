@@ -1,6 +1,5 @@
 import { LoadScene } from "./scenes/LoadScene.js";
 import { MenuScene } from "./scenes/MenuScene.js"; 
-import { LevelsScene } from "./scenes/LevelsScene.js";
 import { FirstCastleScene } from "./scenes/FirstCastleScene.js";
 import { ForestScene } from "./scenes/ForestScene.js";
 
@@ -10,7 +9,7 @@ let game = new Phaser.Game({
     height: 600,
     type: Phaser.AUTO,
     scene: [
-        LoadScene, MenuScene, LevelsScene, FirstCastleScene, ForestScene
+        LoadScene, MenuScene, FirstCastleScene, ForestScene
     ],
     physics: {
         default: 'arcade',

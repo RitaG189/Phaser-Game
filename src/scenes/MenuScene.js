@@ -19,23 +19,17 @@ export class MenuScene extends Phaser.Scene {
 
         this.add.image(0, 0, "background_menu").setOrigin(0);
 
-
-
-            //this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2, "menu").setDepth(0);
         
         let playButton = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 4, "start_button").setDepth(1);
-        
-            //this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 + 100, "options_button").setDepth(1);
 
 
-
-        // create sprites
+        // sprites
 
         let hoverSprite = this.add.sprite("coin");
         hoverSprite.setScale(2);
         
 
-        // make image buttons interactive
+        // make buttons interactive
 
         playButton.setInteractive();
 
@@ -47,7 +41,7 @@ export class MenuScene extends Phaser.Scene {
         })
 
         playButton.on("pointerup", () => {
-            this.scene.launch(CST.SCENES.LEVELS);
+            this.scene.launch(CST.SCENES.LEVEL1);
         })
 
         playButton.on("pointerout", () => {

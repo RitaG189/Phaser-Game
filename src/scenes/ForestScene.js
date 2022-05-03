@@ -12,7 +12,7 @@ export class ForestScene extends Phaser.Scene {
 
     preload ()
     {
-        this.load.image("forest", "assets/forest.png")
+        this.load.image("forest", "assets/Backgrounds/forest.png")
         this.load.image("forest_borders1", 'assets/Ground/level1_ground1.png')
         this.load.image("forest_borders2", 'assets/Ground/level1_ground2.png')
         this.load.image("forest_borders3", 'assets/Ground/level1_ground3.png')
@@ -97,7 +97,7 @@ export class ForestScene extends Phaser.Scene {
         this.monster.setSize(sizeMonsterX, sizeMonsterY, true)
         this.monsterAlive = true
 
-        this.monster2 = this.physics.add.sprite(660, 280, "monster_sprite")
+        this.monster2 = this.physics.add.sprite(682, 280, "monster_sprite")
         this.monster2.setSize(sizeMonsterX, sizeMonsterY, true)
         this.monster2Alive = true
 
@@ -178,9 +178,6 @@ export class ForestScene extends Phaser.Scene {
         const cursors = this.input.keyboard.createCursorKeys()
 
         this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
-
-
-        
 
         this.player.body.velocity.x = 0
         
@@ -302,11 +299,6 @@ export class ForestScene extends Phaser.Scene {
 
         this.portal.anims.play("portal", true)
 
-        if(this.lvlCompleted) 
-        {
-            this.scene.pause()
-        }
-
         // shot
 
         if(!this.shotVisible) 
@@ -314,7 +306,91 @@ export class ForestScene extends Phaser.Scene {
             this.shot.destroy()
             this.shotVisible = true
         }
+
+        // finish
+
+        if(this.levelCompleted)
+        {
+            //this.scene.launch(CST.SCENES.FINISH)
+
+            this.levelCompleted = this.add.image(550, 330, "level-completed").setDepth(2).setScale(1.8)
+
+
+            const starsX = 550, starsY = 312
+            const textX = 560, textY = 358
+
+            if(this.score >= 4)
+            {
+                this.add.image(starsX, starsY, "3-stars").setDepth(2)
+            }
+            else if(this.score >= 3 && this.score < 4)
+            {
+                this.add.image(starsX, starsY, "2-stars").setDepth(2)
+            }
+            else if(this.score >= 2 && this.score < 3)
+            {
+                this.add.image(starsX, starsY, "1-stars").setDepth(2)
+            }
+            else
+            {
+                this.add.image(starsX, starsY, "0-stars").setDepth(2)
+            }
+
+            this.add.text(textX, textY, this.score).setDepth(2)
+    
+            let completeButton = this.add.image(550, 402, "finish-button").setDepth(2).setScale(1.6)
+    
+            completeButton.setInteractive()
+    
+            completeButton.on("pointerover", () => {
+                this.completeButtonPressed = this.add.image(550, 402, "finish-button-pressed").setDepth(3).setScale(1.6)
+                this.completeButtonPressed.setVisible(true);
+            })
+    
+            completeButton.on("pointerup", () => {
+
+                this.levelCompleted.destroy()
+                //this.scene.start(CST.SCENES.MENU);
+                
+            })
+    
+            completeButton.on("pointerout", () => {
+                this.completeButtonPressed.setVisible(false);
+            })
+    
+        }
+
         
+    }
+
+    shoot() 
+    {
+
+        const direction = this.lastKeyPressed
+        const velocity = 150
+
+        switch (direction) 
+        {
+            case "left":
+                this.shot = this.physics.add.image(this.player.x - 22, this.player.y - 5, "left-shot").setOrigin(0).setDepth(1)
+                this.shot.body.setAllowGravity(false)
+                this.shot.setVelocityX(-velocity)
+                this.physics.add.collider(this.shot, this.platforms, this.handleShotPlatformsCollision, null, this)
+                break
+
+            case "right":
+                this.shot = this.physics.add.image(this.player.x + 5, this.player.y - 5, "right-shot").setOrigin(0).setDepth(1)
+                this.shot.body.setAllowGravity(false)
+                this.shot.setVelocityX(velocity)
+                this.physics.add.collider(this.shot, this.platforms, this.handleShotPlatformsCollision, null, this)
+                break
+        }
+
+        
+
+        this.physics.add.collider(this.shot, this.monster, this.handleCollisionShotMonster, null, this)
+        this.physics.add.collider(this.shot, this.monster2, this.handleCollisionShotMonster2, null, this)
+
     }
 
     
@@ -356,9 +432,6 @@ export class ForestScene extends Phaser.Scene {
 
         this.health -= 1
 
-        
-    
-    
     }
 
     
@@ -384,37 +457,6 @@ export class ForestScene extends Phaser.Scene {
     {
         this.collectedCoin4 = true
         this.score += 1
-    }
-
-
-    shoot() 
-    {
-
-        const direction = this.lastKeyPressed
-        const velocity = 150
-
-        switch (direction) 
-        {
-            case "left":
-                this.shot = this.physics.add.image(this.player.x - 22, this.player.y - 5, "left-shot").setOrigin(0).setDepth(1)
-                this.shot.body.setAllowGravity(false)
-                this.shot.setVelocityX(-velocity)
-                this.physics.add.collider(this.shot, this.platforms, this.handleShotPlatformsCollision, null, this)
-                break
-
-            case "right":
-                this.shot = this.physics.add.image(this.player.x + 5, this.player.y - 5, "right-shot").setOrigin(0).setDepth(1)
-                this.shot.body.setAllowGravity(false)
-                this.shot.setVelocityX(velocity)
-                this.physics.add.collider(this.shot, this.platforms, this.handleShotPlatformsCollision, null, this)
-                break
-        }
-
-        
-
-        this.physics.add.collider(this.shot, this.monster, this.handleCollisionShotMonster, null, this)
-        this.physics.add.collider(this.shot, this.monster2, this.handleCollisionShotMonster2, null, this)
-
     }
 
     handleShotPlatformsCollision() 
@@ -456,15 +498,12 @@ export class ForestScene extends Phaser.Scene {
 
     handlePlayerPortalCollision() 
     {
-
-        console.log("clicar seta cima para entrar");
-
+        
         var up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
 
         if (Phaser.Input.Keyboard.JustDown(up))
         {
-            this.lvlCompletedPanel = this.add.image(550, 330, "level-completed").setDepth(2)
-            this.lvlCompleted = true
+            this.levelCompleted = true
         }
     }
 
