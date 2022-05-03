@@ -51,13 +51,7 @@ export class LoadScene extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 32,
         });
-
-        /*
-        this.load.spritesheet("portalIdle", "assets/Sprites/portal-idle.png" , {
-            frameWidth: 32,
-            frameHeight: 32
-        })
-        */
+        
 
         this.load.spritesheet("portal", "assets/Sprites/portal.png", {
             frameWidth: 32,
@@ -71,7 +65,7 @@ export class LoadScene extends Phaser.Scene {
 
         this.load.image("monster", "./assets/Sprites/monster.png");
 
-        this.load.image("level-completed", "assets/Sprites/HUD/level-completed.png")
+        this.load.image("level-completed", "assets/HUD/level-completed.png")
         
 
         // create loading bar
