@@ -3,6 +3,5 @@ export const CST = {
         LOAD: "LOAD",
         MENU: "MENU",
         LEVEL1: "LEVEL1",
-        CASTLE: "CASTLE"
     }
 }

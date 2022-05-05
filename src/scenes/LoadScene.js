@@ -2,26 +2,25 @@ import { CST } from "../CST.js";
 
 export class LoadScene extends Phaser.Scene {
 
-    constructor() {
-        super({
-            key: CST.SCENES.LOAD
-        })
+    constructor() 
+    {
+        super({ key: CST.SCENES.LOAD })
     }
 
-    init() {
+    init() 
+    {
 
     }
 
-    preload() {
+    preload() 
+    {
 
 
         // load images and spritesheets
 
         this.load.image("background_menu", "./assets/Backgrounds/background.jpg");
-        this.load.image("wall", "./assets/Platforms/end-wall.png")
 
         this.load.image("start_button", "./assets/HUD/start.png");
-        this.load.image("options_button", "./assets/options.png");
         
         this.load.image("heart", "./assets/HUD/heart.png");
 
@@ -37,13 +36,6 @@ export class LoadScene extends Phaser.Scene {
         this.load.image("2-stars", "./assets/HUD/2-stars.png")
         this.load.image("1-stars", "./assets/HUD/1-stars.png")
         this.load.image("0-stars", "./assets/HUD/0-stars.png")
-
-
-        this.load.spritesheet("star", "./assets/HUD/stars.png", 
-        {
-            frameWidth: 32,
-            frameHeight: 32
-        }) 
 
         this.load.spritesheet("heart_sprite", "./assets/HUD/heart_sprite.png", 
         {
@@ -71,6 +63,11 @@ export class LoadScene extends Phaser.Scene {
             frameHeight: 32,
         });
 
+        this.load.spritesheet("king-monster", "assets/Sprites/monster-running.png",
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
 
         this.load.spritesheet("portal", "assets/Sprites/portal.png", 
         {
@@ -107,16 +104,6 @@ export class LoadScene extends Phaser.Scene {
             console.log("done");
         })
 
-
-
-        // choose level
-
-        this.load.image("background-levels", "assets/HUD/Levels/background-levels.png")
-        this.load.image("level1", "assets/HUD/Levels/level1.png")
-        this.load.image("level1-pressed", "assets/HUD/Levels/level1-pressed.png")
-        this.load.image("level2", "assets/HUD/Levels/level2.png")
-        this.load.image("level2-pressed", "assets/HUD/Levels/level2-pressed.png")
-        this.load.image("level2-locked", "assets/HUD/Levels/level2-locked.png")
     }
 
     create() {
@@ -139,6 +126,26 @@ export class LoadScene extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("monster_sprite",
             {
                 frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }),
+            frameRate: 12,
+            repeat: -1,
+        })
+
+        this.anims.create({
+            key: "king_monster_right",
+            frames: this.anims.generateFrameNumbers("king-monster",
+            {
+                frames: [0, 1, 2, 3, 4, 5]
+            }),
+            frameRate: 12,
+            repeat: -1,
+        })
+
+        this.anims.create({
+            key: "king_monster_left",
+            frames: this.anims.generateFrameNumbers("king-monster",
+            {
+                frames: [6, 7, 8, 9, 10, 11]
             }),
             frameRate: 12,
             repeat: -1,
