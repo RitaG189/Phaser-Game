@@ -14,6 +14,7 @@ export class ForestScene extends Phaser.Scene {
     {
         this.load.image("forest", "assets/Backgrounds/forest.png")
         this.load.image("forest_borders1", 'assets/Ground/level1_ground1.png')
+        this.load.image("forest_borders1_2", "assets/Ground/ground1_2.png")
         this.load.image("forest_borders2", 'assets/Ground/level1_ground2.png')
         this.load.image("forest_borders3", 'assets/Ground/level1_ground3.png')
         this.load.image("forest_borders4", 'assets/Ground/level1_ground4.png')
@@ -24,7 +25,6 @@ export class ForestScene extends Phaser.Scene {
         this.health = 3
         this.lastKeyPressed = "right"
         this.shotVisible = true
-        
     }
 
     
@@ -40,18 +40,21 @@ export class ForestScene extends Phaser.Scene {
         this.add.image(400, 0, "forest").setOrigin(0).setDepth(0)
     
         this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(0, 384, "forest_borders1").setOrigin(0).refreshBody()
-        this.platforms.create(600, 384, "forest_borders1").setOrigin(0).refreshBody()
-        this.platforms.create(192, 352, "forest_borders2").setOrigin(0).refreshBody()
-        this.platforms.create(416, 352, "forest_borders3").setOrigin(0).refreshBody()
-        this.platforms.create(448, 320, "forest_borders4").setOrigin(0).refreshBody()
-        this.platforms.create(712, 260, "platform").refreshBody()
-        this.platforms.create(638, 300, "platform-mini").refreshBody()
-        this.platforms.create(930, 358, "platform-mini").refreshBody()
-        this.platforms.create(962, 320, "platform-mini").refreshBody()
+        this.platforms.create(-60, 384, "forest_borders1").setOrigin(0).refreshBody()
+        this.platforms.create(540, 384, "forest_borders1_2").setOrigin(0).refreshBody()
+        this.platforms.create(132, 352, "forest_borders2").setOrigin(0).refreshBody()
+        this.platforms.create(356, 352, "forest_borders3").setOrigin(0).refreshBody()
+        this.platforms.create(388, 320, "forest_borders4").setOrigin(0).refreshBody()
+
+        this.platforms.create(666, 260, "platform").refreshBody()
+        this.platforms.create(578, 300, "platform-mini").refreshBody().setSize(33, 22, true)
+        this.platforms.create(962, 360, "platform-mini").refreshBody().setSize(33, 22, true)
+        this.platforms.create(902, 310, "platform-mini").refreshBody().setSize(33, 22, true)
+        this.platforms.create(970, 264, "platform-mini").refreshBody().setSize(33, 22, true)
+        this.platforms.create(860, 216, "platform").refreshBody()
 
 
-        this.portal = this.physics.add.sprite(840, 358, "portal").setScale(1.8)
+        this.portal = this.physics.add.sprite(780, 348, "portal").setScale(2)
 
         
         // HUD
@@ -100,20 +103,24 @@ export class ForestScene extends Phaser.Scene {
         const SIZE_MONSTER_Y = 15
         const MONSTER_SPEED = 30
 
-        this.monster = this.physics.add.sprite(520, 312, "monster_sprite")
+        this.monster = this.physics.add.sprite(460, 312, "monster_sprite")
         this.monster.setSize(SIZE_MONSTER_X, SIZE_MONSTER_Y, true)
         this.monsterAlive = true
 
-        this.monster2 = this.physics.add.sprite(732, 200, "monster_sprite")
+        this.monster2 = this.physics.add.sprite(672, 200, "monster_sprite")
         this.monster2.setSize(SIZE_MONSTER_X, SIZE_MONSTER_Y, true)
         this.monster2Alive = true
 
-        this.monster3 = this.physics.add.sprite(732, 373, "monster_sprite")
+        this.monster3 = this.physics.add.sprite(672, 373, "monster_sprite")
         this.monster3.body.setAllowGravity(false)
         this.monster3.setVelocityX(-MONSTER_SPEED)
         this.monster3.setSize(SIZE_MONSTER_X, SIZE_MONSTER_Y, true)
         this.monster3Alive = true
         this.monster3.anims.play("king_monster_left", true) 
+
+        this.monster4 = this.physics.add.sprite(860, 190, "monster_throwing")
+        this.monster4.setSize(SIZE_MONSTER_X, SIZE_MONSTER_Y, true)
+        this.monster4Alive = true
 
 
         
@@ -122,15 +129,15 @@ export class ForestScene extends Phaser.Scene {
         const COIN_X = 15
         const COIN_Y = 17
 
-        this.coin = this.physics.add.sprite(240, 342, "coin")
+        this.coin = this.physics.add.sprite(180, 342, "coin")
         this.coin.setSize(COIN_X, COIN_Y, true)
         this.collectedCoin1 = false
 
-        this.coin2 = this.physics.add.sprite(350, 376, "coin")
+        this.coin2 = this.physics.add.sprite(290, 376, "coin")
         this.coin2.setSize(COIN_X, COIN_Y, true)
         this.collectedCoin2 = false
 
-        this.coin3 = this.physics.add.sprite(638, 270, "coin")
+        this.coin3 = this.physics.add.sprite(578, 270, "coin")
         this.coin3.setSize(COIN_X, COIN_Y, true)
         this.collectedCoin3 = false
 
@@ -148,6 +155,9 @@ export class ForestScene extends Phaser.Scene {
 
         this.monster3.setCollideWorldBounds(true)
         this.physics.add.collider(this.monster3, this.platforms)
+
+        this.monster4.setCollideWorldBounds(true)
+        this.physics.add.collider(this.monster4, this.platforms)
 
 
         this.coin.setCollideWorldBounds(true)
@@ -268,8 +278,8 @@ export class ForestScene extends Phaser.Scene {
 
         if (this.monster3Alive) 
         {
-            const LEFT_LIMIT = 594
-            const RIGHT_LIMIT = 900
+            const LEFT_LIMIT = 554
+            const RIGHT_LIMIT = 874
             const SPEED_MONSTER = 30
 
 
@@ -288,6 +298,18 @@ export class ForestScene extends Phaser.Scene {
         {
             this.monster3.destroy()
         }
+
+        if (this.monster4Alive) {
+            this.monster4.anims.play("throw", true)
+
+            this.load.sprite("bomb")
+
+        }    
+        else if(!this.monster4Alive) {
+            this.monster4.destroy()
+        }
+
+
 
 
             // coin
@@ -440,7 +462,7 @@ export class ForestScene extends Phaser.Scene {
     {
 
         const DIRECTION = this.lastKeyPressed
-        const SHOT_SPEED = 150
+        const SHOT_SPEED = 250
 
         switch (DIRECTION) 
         {

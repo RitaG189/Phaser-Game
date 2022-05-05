@@ -1,6 +1,7 @@
 import { CST } from "../CST.js";
 
-export class LoadScene extends Phaser.Scene {
+export class LoadScene extends Phaser.Scene 
+{
 
     constructor() 
     {
@@ -22,6 +23,8 @@ export class LoadScene extends Phaser.Scene {
 
         this.load.image("start_button", "./assets/HUD/start.png");
         
+        // HUD
+
         this.load.image("heart", "./assets/HUD/heart.png");
 
         this.load.image("tutorial1", "./assets/HUD/tutorial1.png")
@@ -84,6 +87,28 @@ export class LoadScene extends Phaser.Scene {
 
         this.load.image("level-completed", "assets/HUD/level-completed.png")
 
+
+        // throwing bomb
+
+        this.load.spritesheet("monster_throwing", "assets/Sprites/monster_throwing.png", 
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
+        this.load.image("bomb", "assets/Deco/bomb.png")
+
+        this.load.spritesheet("bomb_on", "assets/Sprites/bomb_on.png", 
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
+        this.load.spritesheet("boom", "assets/Sprites/boom.png", 
+        {
+            frameWidth: 64,
+            frameHeight: 64
+        })
         
 
         // create loading bar
@@ -179,6 +204,16 @@ export class LoadScene extends Phaser.Scene {
                 frames: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
             }),
             frameRate: 10,
+            repeat: -1,
+        })
+
+        this.anims.create({
+            key: "throw",
+            frames: this.anims.generateFrameNumbers("monster_throwing", 
+            {
+                frames: [0, 1, 2, 3, 4]
+            }),
+            frameRate: 5,
             repeat: -1,
         })
     
