@@ -40,11 +40,6 @@ export class LoadScene extends Phaser.Scene
         this.load.image("1-stars", "./assets/HUD/1-stars.png")
         this.load.image("0-stars", "./assets/HUD/0-stars.png")
 
-        this.load.spritesheet("heart_sprite", "./assets/HUD/heart_sprite.png", 
-        {
-            frameHeight: 32,
-            frameWidth: 32
-        });
 
         this.load.spritesheet("coin", "./assets/HUD/coin-sheet.png", 
         {

@@ -59,9 +59,9 @@ export class ForestScene extends Phaser.Scene {
         
         // HUD
 
-        this.heart1 = this.add.sprite(270, 176, "heart_sprite").setDepth(1).setScrollFactor(0)
-        this.heart2 = this.add.sprite(286, 176, "heart_sprite").setDepth(1).setScrollFactor(0)
-        this.heart3 = this.add.sprite(302, 176, "heart_sprite").setDepth(1).setScrollFactor(0)
+        this.heart1 = this.add.image(270, 176, "heart").setDepth(1).setScrollFactor(0)
+        this.heart2 = this.add.image(286, 176, "heart").setDepth(1).setScrollFactor(0)
+        this.heart3 = this.add.image(302, 176, "heart").setDepth(1).setScrollFactor(0)
         this.scoreCoin = this.add.image(270, 200, "coin").setDepth(1).setScrollFactor(0)
         this.displayScore = this.add.text(286, 193, "0").setDepth(1).setScrollFactor(0)
 
@@ -194,14 +194,43 @@ export class ForestScene extends Phaser.Scene {
         this.physics.add.collider(this.portal, this.platforms)
         this.physics.add.overlap(this.player, this.portal, this.handlePlayerPortalCollision, null, this)
 
+        //this.throwBomb()
 
+        this.graphics = this.add.graphics();
 
-        
+        this.follower = { t: 0, vec: new Phaser.Math.Vector2() };
+    
+        //  Path starts at 100x100
+        this.path = new Phaser.Curves.Path(860, 190);
+    
+        this.path.lineTo(860, 190);
+    
+        // cubicBezierTo: function (x, y, control1X, control1Y, control2X, control2Y)
+        this.path.cubicBezierTo(970, 250, 860, 100, 980, 140);
+    
+        this.tweens.add({
+            targets: this.follower,
+            t: 1,
+            ease: 'Sine.easeInOut',
+            duration: 1500,
+            yoyo: false,
+            repeat: -1
+        });
     }
 
     
     update() 
     {
+        // subsituir por imagem
+        this.graphics.clear();
+        this.graphics.lineStyle(2, 0xffffff, 1);
+    
+        this.path.draw(this.graphics);
+    
+        this.path.getPoint(this.follower.t, this.follower.vec);
+    
+        this.graphics.fillStyle(0xff0000, 1);
+        this.graphics.fillCircle(this.follower.vec.x, this.follower.vec.y, 12);
 
         const SPEED_PLAYER = 100
         const JUMP = -355
@@ -299,17 +328,17 @@ export class ForestScene extends Phaser.Scene {
             this.monster3.destroy()
         }
 
-        if (this.monster4Alive) {
+
+        if (this.monster4Alive) 
+        {
             this.monster4.anims.play("throw", true)
 
-            this.load.sprite("bomb")
-
+            
         }    
-        else if(!this.monster4Alive) {
+        else if (!this.monster4Alive) 
+        {
             this.monster4.destroy()
         }
-
-
 
 
             // coin
@@ -646,6 +675,15 @@ export class ForestScene extends Phaser.Scene {
         {
             this.levelCompleted = true
         }
+    }
+
+    throwBomb()
+    {
+        this.bomb = this.physics.add.sprite(866, 185, "bomb")
+
+        this.bomb.setCollideWorldBounds(true)
+        this.physics.add.collider(this.bomb, this.platforms)
+        this.bomb.setVelocityX(200)
     }
 
 
