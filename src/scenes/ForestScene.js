@@ -20,11 +20,13 @@ export class ForestScene extends Phaser.Scene {
         this.load.image("forest_borders4", 'assets/Ground/level1_ground4.png')
         this.load.image("platform", 'assets/Platforms/platform1.png')
         this.load.image("platform-mini", "assets/Platforms/platform2.png")
+        this.load.image("platform-tree", "assets/Platforms/platform3.png")
 
         this.score = 0
         this.health = 3
         this.lastKeyPressed = "right"
         this.shotVisible = true
+        this.gotKey = false
     }
 
     
@@ -45,10 +47,13 @@ export class ForestScene extends Phaser.Scene {
 
         this.platforms.create(666, 260, "platform").refreshBody()
         this.platforms.create(578, 300, "platform-mini").refreshBody().setSize(33, 22, true)
-        this.platforms.create(962, 360, "platform-mini").refreshBody().setSize(33, 22, true)
+        this.platforms.create(972, 360, "platform-mini").refreshBody().setSize(33, 22, true)
         this.platforms.create(902, 310, "platform-mini").refreshBody().setSize(33, 22, true)
-        this.platforms.create(970, 264, "platform-mini").refreshBody().setSize(33, 22, true)
-        this.platforms.create(860, 216, "platform").refreshBody()
+        this.platforms.create(840, 264, "platform-mini").refreshBody().setSize(33, 22, true)
+        this.platforms.create(946, 210, "platform").refreshBody()
+        this.platforms.create(846, 160, "platform-mini").refreshBody().setSize(33, 22, true)
+        this.platforms.create(948, 110, "platform-tree").refreshBody()
+
 
 
         this.portal = this.physics.add.sprite(780, 348, "portal").setScale(2)
@@ -65,15 +70,15 @@ export class ForestScene extends Phaser.Scene {
 
         // tutorial 
 
-        let tutorial = this.add.image(500, 300, "tutorial1").setScale(1.6).setScrollFactor(0).setDepth(1)
+        let tutorial = this.add.image(500, 300, "tutorial1").setScale(1.6).setScrollFactor(0).setDepth(2)
 
 
-        let okButton = this.add.image(506, 366, "okButton").setScale(1.6).setScrollFactor(0).setDepth(1)
+        let okButton = this.add.image(506, 366, "okButton").setScale(1.6).setScrollFactor(0).setDepth(2)
         
         okButton.setInteractive();
 
         okButton.on("pointerover", () => {
-            this.pressedButton = this.add.image(506, 366, "pressedOkButton").setScale(1.6).setScrollFactor(0).setDepth(1)
+            this.pressedButton = this.add.image(506, 366, "pressedOkButton").setScale(1.6).setScrollFactor(0).setDepth(2)
             this.pressedButton.setVisible(true);
         })
 
@@ -95,8 +100,8 @@ export class ForestScene extends Phaser.Scene {
 
         const PLAYER_X = 20
         const PLAYER_Y = 30
-                                            
-        this.player = this.physics.add.sprite(30, 369, "main")
+                                            //30
+        this.player = this.physics.add.sprite(800, 369, "main").setDepth(1)
         this.player.setSize(PLAYER_X, PLAYER_Y, true)
 
 
@@ -125,7 +130,6 @@ export class ForestScene extends Phaser.Scene {
         //this.monster4.setSize(SIZE_MONSTER_X, SIZE_MONSTER_Y, true)
         //this.monster4Alive = true
 
-
         
         // add coin        
 
@@ -143,6 +147,23 @@ export class ForestScene extends Phaser.Scene {
         this.coin3 = this.physics.add.sprite(578, 270, "coin")
         this.coin3.setSize(COIN_X, COIN_Y, true)
         this.collectedCoin3 = false
+
+        // chest
+
+        this.chest = this.physics.add.image(950, 180, "chest").setScale(0.8).setDepth(0)
+        this.chest.setCollideWorldBounds(true)
+        this.physics.add.collider(this.chest, this.platforms)
+        this.physics.add.overlap(this.player, this.chest, this.handlePlayerChestCollision, null, this)
+
+
+        // key
+
+        this.key = this.physics.add.sprite(950, 80, "key").setScale(1).setDepth(0)
+        this.key.setSize(8, 15, true)
+        this.key.setCollideWorldBounds(true)
+        this.physics.add.collider(this.key, this.platforms)
+        this.physics.add.overlap(this.player, this.key, this.handlePlayerKeyCollision, null, this)
+
 
 
         // collisions
@@ -187,7 +208,7 @@ export class ForestScene extends Phaser.Scene {
 
         this.cameras.main.startFollow(this.player)
         this.cameras.main.setBounds(0, 0, 1000, 480)
-        this.cameras.main.setZoom(2, 2)
+        //this.cameras.main.setZoom(2, 2)
 
         // portal
 
@@ -421,6 +442,11 @@ export class ForestScene extends Phaser.Scene {
             this.scene.launch(CST.SCENES.GAMEOVER)
         }
 
+
+        // key
+
+        this.key.anims.play("key-spinning", true)
+
         
     }
 
@@ -623,6 +649,37 @@ export class ForestScene extends Phaser.Scene {
         });
     }
 
+
+    handlePlayerChestCollision()
+    {
+        var enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
+        console.log("enter");
+
+        if (Phaser.Input.Keyboard.JustDown(enter))
+        {
+
+            
+            if(this.gotKey === true)
+            {
+                this.chest.destroy()
+
+                this.openChest = this.physics.add.sprite(950, 180, "chestOpen").setDepth(0)
+                this.openChest.setCollideWorldBounds(true)
+                this.physics.add.collider(this.openChest, this.platforms)
+            }
+
+
+        }
+    }
+
+    handlePlayerKeyCollision()
+    {
+        //this.key.destroy()
+        this.gotKey = true
+
+        this.newKey = this.physics.add.sprite(100, 100, "key").setScrollFactor(0)
+    }
 
 
 

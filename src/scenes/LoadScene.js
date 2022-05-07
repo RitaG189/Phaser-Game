@@ -62,6 +62,24 @@ export class LoadScene extends Phaser.Scene
             frameHeight: 32
         })
 
+        // chest
+
+        this.load.image("chest", "assets/Objects/chest.png")
+
+        this.load.spritesheet("chestOpening", "assets/Sprites/open-chest.png",
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
+        // key
+
+        this.load.spritesheet("key", "assets/Sprites/key.png",
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
 
         // portal
 
@@ -191,7 +209,30 @@ export class LoadScene extends Phaser.Scene
             frameRate: 10,
             repeat: -1,
         })
+
+        // chest
+
+        this.anims.create({
+            key: "opening",
+            frames: this.anims.generateFrameNumbers("chestOpening", 
+            {
+                frames: [0,1,2,3,4,5,6,7]
+            }),
+            frameRate: 5,
+            repeat: -1,
+        })
+
+        // key
     
+        this.anims.create({
+            key: "key-spinning",
+            frames: this.anims.generateFrameNumbers("key", 
+            {
+                frames: [0,1,2,3,4,5,6,7]
+            }),
+            frameRate: 8,
+            repeat: -1,
+        })
 
         // start menu
 
