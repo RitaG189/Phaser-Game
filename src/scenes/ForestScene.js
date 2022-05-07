@@ -31,9 +31,6 @@ export class ForestScene extends Phaser.Scene {
     create ()
     {
 
-    // close tutorial
-
-
         // scenario
         
         this.add.image(0, 0, "forest").setOrigin(0).setDepth(0)
@@ -65,10 +62,32 @@ export class ForestScene extends Phaser.Scene {
         this.scoreCoin = this.add.image(270, 200, "coin").setDepth(1).setScrollFactor(0)
         this.displayScore = this.add.text(286, 193, "0").setDepth(1).setScrollFactor(0)
 
+
         // tutorial 
 
+        let tutorial = this.add.image(500, 300, "tutorial1").setScale(1.6).setScrollFactor(0).setDepth(1)
+
+
+        let okButton = this.add.image(506, 366, "okButton").setScale(1.6).setScrollFactor(0).setDepth(1)
         
-        this.scene.launch(CST.SCENES.TUTORIAL)
+        okButton.setInteractive();
+
+        okButton.on("pointerover", () => {
+            this.pressedButton = this.add.image(506, 366, "pressedOkButton").setScale(1.6).setScrollFactor(0).setDepth(1)
+            this.pressedButton.setVisible(true);
+        })
+
+        okButton.on("pointerup", () => {
+            okButton.destroy()
+            this.pressedButton.destroy()
+            tutorial.destroy()
+        })
+
+        okButton.on("pointerout", () => {
+            this.pressedButton.setVisible(false);
+        })
+    
+ 
         //this.scene.pause()
 
 
@@ -102,9 +121,9 @@ export class ForestScene extends Phaser.Scene {
         this.monster3Alive = true
         this.monster3.anims.play("king_monster_left", true) 
 
-        this.monster4 = this.physics.add.sprite(860, 190, "monster_throwing")
-        this.monster4.setSize(SIZE_MONSTER_X, SIZE_MONSTER_Y, true)
-        this.monster4Alive = true
+        //this.monster4 = this.physics.add.sprite(860, 190, "monster_throwing")
+        //this.monster4.setSize(SIZE_MONSTER_X, SIZE_MONSTER_Y, true)
+        //this.monster4Alive = true
 
 
         
@@ -140,8 +159,8 @@ export class ForestScene extends Phaser.Scene {
         this.monster3.setCollideWorldBounds(true)
         this.physics.add.collider(this.monster3, this.platforms)
 
-        this.monster4.setCollideWorldBounds(true)
-        this.physics.add.collider(this.monster4, this.platforms)
+        //this.monster4.setCollideWorldBounds(true)
+        //this.physics.add.collider(this.monster4, this.platforms)
 
 
         this.coin.setCollideWorldBounds(true)
@@ -155,9 +174,7 @@ export class ForestScene extends Phaser.Scene {
 
 
         this.physics.add.collider(this.player, this.monster, this.handlePlayerEnemyCollision, null, this)
-
         this.physics.add.collider(this.player, this.monster2, this.handlePlayerEnemyCollision2, null, this)
-
         this.physics.add.collider(this.player, this.monster3, this.handlePlayerEnemyCollision3, null, this)
 
 
@@ -179,27 +196,6 @@ export class ForestScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.portal, this.handlePlayerPortalCollision, null, this)
 
 
-
-        var startPoint = new Phaser.Math.Vector2(860, 190);
-        var controlPoint1 = new Phaser.Math.Vector2(900, 165);
-        var controlPoint2 = new Phaser.Math.Vector2(950, 170);
-        var endPoint = new Phaser.Math.Vector2(970, 242);
-    
-        var curve = new Phaser.Curves.CubicBezier(startPoint, controlPoint1, controlPoint2, endPoint);
-    
-        var graphics = this.add.graphics();
-    
-        graphics.lineStyle(1, 0xffffff, 1);
-    
-        curve.draw(graphics, 64);
-    
-        this.bomb = this.add.follower(curve, 860, 190, 'bomb');
-    
-
-
-        
-
-        //ball1.destroy()
 
 
     }
@@ -304,6 +300,7 @@ export class ForestScene extends Phaser.Scene {
         }
 
 
+        /*
         if (this.monster4Alive) 
         {
             this.monster4.anims.play("throw", true)
@@ -316,17 +313,12 @@ export class ForestScene extends Phaser.Scene {
                 console.log("throw");
                 //throwBomb()
             }
-                
-
-
-
-            
         }    
         else if (!this.monster4Alive) 
         {
             this.monster4.destroy()
         }
-
+        */
 
             // coin
 

@@ -1,4 +1,4 @@
-import { CST } from "../CST.js";
+import { CST } from "../CST.js"
 
 export class LoadScene extends Phaser.Scene 
 {
@@ -12,20 +12,75 @@ export class LoadScene extends Phaser.Scene
     {
 
 
-        // load images and spritesheets
+        // load images and sprites
 
-        this.load.image("background_menu", "./assets/Backgrounds/background.jpg");
+        // menu
 
-        this.load.image("start_button", "./assets/HUD/start.png");
+        this.load.image("background_menu", "./assets/Backgrounds/background.jpg")
+
+        this.load.image("start_button", "./assets/HUD/start.png")
         
         // HUD
 
-        this.load.image("heart", "./assets/HUD/heart.png");
+        this.load.image("heart", "./assets/HUD/heart.png")
 
         this.load.image("tutorial1", "./assets/HUD/tutorial1.png")
         
         this.load.image("okButton", "./assets/HUD/ok_button.png")
         this.load.image("pressedOkButton", "./assets/HUD/pressed_ok_button.png")
+
+
+        // coin
+
+        this.load.spritesheet("coin", "./assets/HUD/coin-sheet.png", 
+        {
+            frameHeight: 32,
+            frameWidth: 32
+        })
+
+
+        // player
+        
+        this.load.spritesheet('main', './assets/Sprites/Main.png', 
+        { 
+            frameWidth: 32, 
+            frameHeight: 32,
+        })
+
+        
+        // monsters
+
+        this.load.spritesheet("monster_sprite", "assets/Sprites/monster_sprite.png", 
+        {
+            frameWidth: 32,
+            frameHeight: 32,
+        })
+
+        this.load.spritesheet("king-monster", "assets/Sprites/monster-running.png",
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
+
+        // portal
+
+        this.load.spritesheet("portal", "assets/Sprites/portal.png", 
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
+
+        // shots
+
+        this.load.image("right-shot", "assets/Sprites/shot-right.png")
+        this.load.image("left-shot", "assets/Sprites/shot-left.png")
+        
+
+        // end
+
+        this.load.image("level-completed", "assets/HUD/level-completed.png")
 
         this.load.image("finish-button", "./assets/HUD/finish-button.png")
         this.load.image("finish-button-pressed", "./assets/HUD/finish-button-pressed.png")
@@ -35,79 +90,6 @@ export class LoadScene extends Phaser.Scene
         this.load.image("1-stars", "./assets/HUD/1-stars.png")
         this.load.image("0-stars", "./assets/HUD/0-stars.png")
 
-
-        this.load.spritesheet("coin", "./assets/HUD/coin-sheet.png", 
-        {
-            frameHeight: 32,
-            frameWidth: 32
-        });
-
-        
-        this.load.spritesheet('main', './assets/Sprites/Main.png', 
-        { 
-            frameWidth: 32, 
-            frameHeight: 32,
-        });
-
-        
-        this.load.spritesheet("monster_sprite", "assets/Sprites/monster_sprite.png", 
-        {
-            frameWidth: 32,
-            frameHeight: 32,
-        });
-
-        this.load.spritesheet("king-monster", "assets/Sprites/monster-running.png",
-        {
-            frameWidth: 32,
-            frameHeight: 32
-        })
-
-        this.load.spritesheet("portal", "assets/Sprites/portal.png", 
-        {
-            frameWidth: 32,
-            frameHeight: 32
-        })
-
-
-        this.load.image("right-shot", "assets/Sprites/shot-right.png")
-        this.load.image("left-shot", "assets/Sprites/shot-left.png")
-        
-
-        this.load.image("monster", "./assets/Sprites/monster.png");
-
-        this.load.image("level-completed", "assets/HUD/level-completed.png")
-
-
-        // throwing bomb
-
-        this.load.spritesheet("monster_throwing", "assets/Sprites/monster_throwing.png", 
-        {
-            frameWidth: 32,
-            frameHeight: 32
-        })
-
-        this.load.image("bomb", "assets/Deco/bomb.png")
-
-        this.load.spritesheet("bomb_on", "assets/Sprites/bomb_on.png", 
-        {
-            frameWidth: 32,
-            frameHeight: 32
-        })
-
-        this.load.spritesheet("boom", "assets/Sprites/boom.png", 
-        {
-            frameWidth: 64,
-            frameHeight: 64
-        })
-
-        // game over
-
-        this.load.image("tryAgain", "assets/HUD/repetir.png")
-        this.load.image("tryAgainPressed", "assets/HUD/repetir-pressed.png")
-
-        this.load.image("menu", "assets/HUD/menu.png")
-        this.load.image("menuPressed", "assets/HUD/menu-pressed.png")
-        
 
         // create loading bar
 
@@ -119,21 +101,21 @@ export class LoadScene extends Phaser.Scene
 
 
         this.load.on("progress", (percent) => {
-            loadingBar.fillRect(0, this.game.renderer.height / 2, this.game.renderer.width * percent, 50);
-            console.log(percent);
+            loadingBar.fillRect(0, this.game.renderer.height / 2, this.game.renderer.width * percent, 50)
+            console.log(percent)
         })
 
         this.load.on("complete", () => {
-            console.log("done");
+            console.log("done")
         })
 
     }
 
-    create() {
+    create() 
+    {
+       // create animations
 
-        
-
-       // animations
+       // coin
 
         this.anims.create({
             key: "spinning",
@@ -143,6 +125,8 @@ export class LoadScene extends Phaser.Scene
                 frames: [0, 1, 2, 3, 4, 5]
             })
         })
+
+        // monsters
 
         this.anims.create({
             key: "idle_monster",
@@ -174,6 +158,7 @@ export class LoadScene extends Phaser.Scene
             repeat: -1,
         })
 
+        // player
 
         this.anims.create({
             key: 'right',
@@ -183,7 +168,7 @@ export class LoadScene extends Phaser.Scene
             }),
             frameRate: 15,
             repeat: -1,
-        });
+        })
 
         this.anims.create({
             key: 'left',
@@ -193,7 +178,9 @@ export class LoadScene extends Phaser.Scene
             }),
             frameRate: 15,
             repeat: -1,
-        });
+        })
+
+        // portal
 
         this.anims.create({
             key: "portal",
@@ -204,19 +191,11 @@ export class LoadScene extends Phaser.Scene
             frameRate: 10,
             repeat: -1,
         })
-
-        this.anims.create({
-            key: "throw",
-            frames: this.anims.generateFrameNumbers("monster_throwing", 
-            {
-                frames: [0, 1, 2, 3, 4]
-            }),
-            frameRate: 5,
-            repeat: -1,
-        })
     
 
-        this.scene.start(CST.SCENES.MENU);
+        // start menu
+
+        this.scene.start(CST.SCENES.MENU)
     }
 }
 

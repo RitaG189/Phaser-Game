@@ -1,4 +1,4 @@
-import { CST } from "../CST.js";
+import { CST } from "../../CST.js";
 
 export class EndScene extends Phaser.Scene 
 {
@@ -22,11 +22,11 @@ export class EndScene extends Phaser.Scene
         const STARS_X = 500, STARS_Y = 274
         const TEXT_X = 530, TEXT_Y = 346
 
-        if(this.score >= 4)
+        if(this.score >= 7)
         {
             this.add.image(STARS_X, STARS_Y, "3-stars").setScale(2)
         }
-        else if(this.score >= 3 && this.score < 4)
+        else if(this.score >= 3 && this.score < 5)
         {
             this.add.image(STARS_X, STARS_Y, "2-stars").setScale(2)
         }
@@ -56,8 +56,7 @@ export class EndScene extends Phaser.Scene
             this.scene.restart(CST.SCENES.LEVEL1)  
             this.scene.stop(CST.SCENES.LEVEL1)    
             this.scene.stop()
-            
-
+        
             
         })
 

@@ -1,4 +1,4 @@
-import { CST } from "../CST.js";
+import { CST } from "../../CST.js";
 
 export class GameOverScene extends Phaser.Scene 
 {
