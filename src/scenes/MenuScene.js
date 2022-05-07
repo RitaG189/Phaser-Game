@@ -1,15 +1,16 @@
 import { CST } from "../CST.js";
 
-export class MenuScene extends Phaser.Scene {
+export class MenuScene extends Phaser.Scene 
+{
 
     constructor() 
     {
         super({ key: CST.SCENES.MENU })
     }
 
-    init(data) {
+    init(data) 
+    {
         console.log(data);
-
     }
 
     create(){
@@ -26,6 +27,10 @@ export class MenuScene extends Phaser.Scene {
 
         let hoverSprite = this.add.sprite("coin");
         hoverSprite.setScale(2);
+
+        let hoverSprite2 = this.add.sprite("coin");
+        hoverSprite2.setScale(2);
+
         
 
         // make buttons interactive
@@ -35,8 +40,13 @@ export class MenuScene extends Phaser.Scene {
         playButton.on("pointerover", () => {
             hoverSprite.setVisible(true);
             hoverSprite.play("spinning");
-            hoverSprite.x = 380;
+            hoverSprite.x = 376;
             hoverSprite.y = 146;
+
+            hoverSprite2.setVisible(true);
+            hoverSprite2.play("spinning");
+            hoverSprite2.x = 622;
+            hoverSprite2.y = 146;
         })
 
         playButton.on("pointerup", () => {
@@ -45,6 +55,8 @@ export class MenuScene extends Phaser.Scene {
 
         playButton.on("pointerout", () => {
             hoverSprite.setVisible(false);
+            hoverSprite2.setVisible(false);
         })
     }
+    
 } 

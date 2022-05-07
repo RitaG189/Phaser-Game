@@ -67,25 +67,9 @@ export class ForestScene extends Phaser.Scene {
 
         // tutorial 
 
-        this.tutorial = this.add.image(506, 296, "tutorial1").setDepth(1).setScale(1.6).setScrollFactor(0)
-        let okButton = this.add.image(506, 363, "okButton").setDepth(1).setScale(1.6).setScrollFactor(0)
         
-        okButton.setInteractive();
-
-        okButton.on("pointerover", () => {
-            this.pressedButton = this.add.image(506, 363, "pressedOkButton").setDepth(1).setScale(1.6).setScrollFactor(0)
-            this.pressedButton.setVisible(true);
-        })
-
-        okButton.on("pointerup", () => {
-            okButton.destroy()
-            this.pressedButton.destroy()
-            this.tutorial.destroy()
-        })
-
-        okButton.on("pointerout", () => {
-            this.pressedButton.setVisible(false);
-        })
+        this.scene.launch(CST.SCENES.TUTORIAL)
+        //this.scene.pause()
 
 
         // add player  
@@ -186,7 +170,7 @@ export class ForestScene extends Phaser.Scene {
 
         this.cameras.main.startFollow(this.player)
         this.cameras.main.setBounds(0, 0, 1000, 480)
-        //this.cameras.main.setZoom(2, 2)
+        this.cameras.main.setZoom(2, 2)
 
         // portal
 
@@ -194,44 +178,35 @@ export class ForestScene extends Phaser.Scene {
         this.physics.add.collider(this.portal, this.platforms)
         this.physics.add.overlap(this.player, this.portal, this.handlePlayerPortalCollision, null, this)
 
-        //this.throwBomb()
 
-        this.graphics = this.add.graphics();
 
-        this.follower = { t: 0, vec: new Phaser.Math.Vector2() };
+        var startPoint = new Phaser.Math.Vector2(860, 190);
+        var controlPoint1 = new Phaser.Math.Vector2(900, 165);
+        var controlPoint2 = new Phaser.Math.Vector2(950, 170);
+        var endPoint = new Phaser.Math.Vector2(970, 242);
     
-        //  Path starts at 100x100
-        this.path = new Phaser.Curves.Path(860, 190);
+        var curve = new Phaser.Curves.CubicBezier(startPoint, controlPoint1, controlPoint2, endPoint);
     
-        this.path.lineTo(860, 190);
+        var graphics = this.add.graphics();
     
-        // cubicBezierTo: function (x, y, control1X, control1Y, control2X, control2Y)
-        this.path.cubicBezierTo(970, 250, 860, 100, 980, 140);
+        graphics.lineStyle(1, 0xffffff, 1);
     
-        this.tweens.add({
-            targets: this.follower,
-            t: 1,
-            ease: 'Sine.easeInOut',
-            duration: 1500,
-            yoyo: false,
-            repeat: -1
-        });
+        curve.draw(graphics, 64);
+    
+        this.bomb = this.add.follower(curve, 860, 190, 'bomb');
+    
+
+
+        
+
+        //ball1.destroy()
+
+
     }
 
     
     update() 
     {
-        // subsituir por imagem
-        this.graphics.clear();
-        this.graphics.lineStyle(2, 0xffffff, 1);
-    
-        this.path.draw(this.graphics);
-    
-        this.path.getPoint(this.follower.t, this.follower.vec);
-    
-        this.graphics.fillStyle(0xff0000, 1);
-        this.graphics.fillCircle(this.follower.vec.x, this.follower.vec.y, 12);
-
         const SPEED_PLAYER = 100
         const JUMP = -355
 
@@ -333,6 +308,18 @@ export class ForestScene extends Phaser.Scene {
         {
             this.monster4.anims.play("throw", true)
 
+            var frame = this.monster4.frame
+            //console.log(frame);
+
+            if(frame === 4)
+            {
+                console.log("throw");
+                //throwBomb()
+            }
+                
+
+
+
             
         }    
         else if (!this.monster4Alive) 
@@ -433,55 +420,13 @@ export class ForestScene extends Phaser.Scene {
             this.shotVisible = true
         }
 
-        // finish
+        // game over
 
-        if(this.levelCompleted)
+        if(this.health <= 0)
         {
+            this.scene.pause()
 
-            this.levelCompleted = this.add.image(740, 330, "level-completed").setDepth(2).setScale(1.8)
-
-
-            const STARS_X = 740, STARS_Y = 312
-            const TEXT_X = 755, TEXT_Y = 358
-
-            if(this.score >= 4)
-            {
-                this.add.image(STARS_X, STARS_Y, "3-stars").setDepth(2)
-            }
-            else if(this.score >= 3 && this.score < 4)
-            {
-                this.add.image(STARS_X, STARS_Y, "2-stars").setDepth(2)
-            }
-            else if(this.score >= 2 && this.score < 3)
-            {
-                this.add.image(STARS_X, STARS_Y, "1-stars").setDepth(2)
-            }
-            else
-            {
-                this.add.image(STARS_X, STARS_Y, "0-stars").setDepth(2)
-            }
-
-            this.add.text(TEXT_X, TEXT_Y, this.score).setDepth(2)
-    
-            let completeButton = this.add.image(740, 402, "finish-button").setDepth(2).setScale(1.6)
-    
-            completeButton.setInteractive()
-    
-            completeButton.on("pointerover", () => {
-                this.completeButtonPressed = this.add.image(740, 402, "finish-button-pressed").setDepth(3).setScale(1.6)
-                this.completeButtonPressed.setVisible(true);
-            })
-    
-            completeButton.on("pointerup", () => {
-                this.levelCompleted.destroy()
-                //this.scene.start(CST.SCENES.MENU);
-                
-            })
-    
-            completeButton.on("pointerout", () => {
-                this.completeButtonPressed.setVisible(false);
-            })
-    
+            this.scene.launch(CST.SCENES.GAMEOVER)
         }
 
         
@@ -673,18 +618,20 @@ export class ForestScene extends Phaser.Scene {
 
         if (Phaser.Input.Keyboard.JustDown(enter))
         {
-            this.levelCompleted = true
+            this.scene.launch(CST.SCENES.END, { score: this.score })
         }
     }
 
     throwBomb()
     {
-        this.bomb = this.physics.add.sprite(866, 185, "bomb")
-
-        this.bomb.setCollideWorldBounds(true)
-        this.physics.add.collider(this.bomb, this.platforms)
-        this.bomb.setVelocityX(200)
+        this.bomb.startFollow({
+            duration: 3000,
+            yoyo: false,
+            ease: 'Sine.easeInOut'
+        });
     }
+
+
 
 
 }

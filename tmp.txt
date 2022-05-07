@@ -1,5 +1,0 @@
-
-    - death
-    - end
-    - double jump
-    

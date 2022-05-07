@@ -8,11 +8,6 @@ export class LoadScene extends Phaser.Scene
         super({ key: CST.SCENES.LOAD })
     }
 
-    init() 
-    {
-
-    }
-
     preload() 
     {
 
@@ -104,6 +99,14 @@ export class LoadScene extends Phaser.Scene
             frameWidth: 64,
             frameHeight: 64
         })
+
+        // game over
+
+        this.load.image("tryAgain", "assets/HUD/repetir.png")
+        this.load.image("tryAgainPressed", "assets/HUD/repetir-pressed.png")
+
+        this.load.image("menu", "assets/HUD/menu.png")
+        this.load.image("menuPressed", "assets/HUD/menu-pressed.png")
         
 
         // create loading bar
