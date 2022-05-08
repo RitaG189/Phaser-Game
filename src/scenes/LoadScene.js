@@ -10,15 +10,14 @@ export class LoadScene extends Phaser.Scene
 
     preload() 
     {
-
-
         // load images and sprites
 
         // menu
 
         this.load.image("background_menu", "./assets/Backgrounds/background.jpg")
 
-        this.load.image("start_button", "./assets/HUD/start.png")
+        this.load.image("start_button", "./assets/Buttons/start.png")
+        this.load.image("start_button_pressed", "./assets/Buttons/start-pressed.png")
         
         // HUD
 
@@ -26,22 +25,22 @@ export class LoadScene extends Phaser.Scene
 
         this.load.image("tutorial1", "./assets/HUD/tutorial1.png")
         
-        this.load.image("okButton", "./assets/HUD/ok_button.png")
-        this.load.image("pressedOkButton", "./assets/HUD/pressed_ok_button.png")
+        this.load.image("okButton", "./assets/Buttons/ok_button.png")
+        this.load.image("pressedOkButton", "./assets/Buttons/pressed_ok_button.png")
 
-        this.load.image("tutorialButton", "./assets/HUD/tutorial.png")
-        this.load.image("tutorialButtonPressed", "./assets/HUD/tutorial-pressed.png")
+        this.load.image("tutorialButton", "./assets/Buttons/tutorial.png")
+        this.load.image("tutorialButtonPressed", "./assets/Buttons/tutorial-pressed.png")
 
 
         // coin
 
-        this.load.spritesheet("coin", "./assets/HUD/coin-sheet.png", 
+        this.load.spritesheet("coin", "./assets/Objects/coin-sheet.png", 
         {
             frameHeight: 32,
             frameWidth: 32
         })
 
-        this.load.spritesheet("premiumCoin", "./assets/HUD/premium-coin.png", 
+        this.load.spritesheet("premiumCoin", "./assets/Objects/premium-coin.png", 
         {
             frameHeight: 32,
             frameWidth: 32
@@ -133,8 +132,8 @@ export class LoadScene extends Phaser.Scene
 
         this.load.image("level-completed", "assets/HUD/level-completed.png")
 
-        this.load.image("finish-button", "./assets/HUD/finish-button.png")
-        this.load.image("finish-button-pressed", "./assets/HUD/finish-button-pressed.png")
+        this.load.image("finish-button", "./assets/Buttons/finish-button.png")
+        this.load.image("finish-button-pressed", "./assets/Buttons/finish-button-pressed.png")
 
         this.load.image("3-stars", "./assets/HUD/3-stars.png")
         this.load.image("2-stars", "./assets/HUD/2-stars.png")
@@ -144,30 +143,11 @@ export class LoadScene extends Phaser.Scene
 
         // game over
 
-        this.load.image("tryAgain", "./assets/HUD/repetir.png")
-        this.load.image("tryAgainPressed", "./assets/HUD/repetir-pressed.png")
+        this.load.image("tryAgain", "./assets/Buttons/repetir.png")
+        this.load.image("tryAgainPressed", "./assets/Buttons/repetir-pressed.png")
 
-        this.load.image("menu", "./assets/HUD/menu.png")
-        this.load.image("menuPressed", "./assets/HUD/menu-pressed.png")
-
-
-        // create loading bar
-
-        let loadingBar = this.add.graphics({
-            fillStyle: {
-                color: 0xffffff // white
-            }
-        })
-
-
-        this.load.on("progress", (percent) => {
-            loadingBar.fillRect(0, this.game.renderer.height / 2, this.game.renderer.width * percent, 50)
-            console.log(percent)
-        })
-
-        this.load.on("complete", () => {
-            console.log("done")
-        })
+        this.load.image("menu", "./assets/Buttons/menu.png")
+        this.load.image("menuPressed", "./assets/Buttons/menu-pressed.png")
 
     }
 

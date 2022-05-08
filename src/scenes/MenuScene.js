@@ -8,19 +8,16 @@ export class MenuScene extends Phaser.Scene
         super({ key: CST.SCENES.MENU })
     }
 
-    init(data) 
-    {   
-        console.log(data)
-    }
-
-    create(){
-
+    create()
+    {
         // create images & buttons
 
         this.add.image(0, 0, "background_menu").setOrigin(0)
 
         
         let playButton = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 4, "start_button").setDepth(1)
+        this.playButtonPressed = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 4, "start_button_pressed").setDepth(1)
+        this.playButtonPressed.setVisible(false)
 
 
         // coins
@@ -30,6 +27,8 @@ export class MenuScene extends Phaser.Scene
 
         let hoverSprite2 = this.add.sprite("coin")
         hoverSprite2.setScale(2)
+
+        
 
         
 
@@ -47,6 +46,8 @@ export class MenuScene extends Phaser.Scene
             hoverSprite2.play("spinning")
             hoverSprite2.x = 622
             hoverSprite2.y = 146
+
+            this.playButtonPressed.setVisible(true)
         })
 
         playButton.on("pointerup", () => {
@@ -56,6 +57,7 @@ export class MenuScene extends Phaser.Scene
         playButton.on("pointerout", () => {
             hoverSprite.setVisible(false)
             hoverSprite2.setVisible(false)
+            this.playButtonPressed.setVisible(false)
         })
     }
     

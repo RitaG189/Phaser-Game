@@ -55,10 +55,6 @@ export class ForestScene extends Phaser.Scene {
         this.platforms.create(846, 160, "platform-mini").refreshBody().setSize(33, 22, true)
         this.platforms.create(948, 110, "platform-tree").refreshBody()
 
-
-
-        this.portal = this.physics.add.sprite(780, 348, "portal").setScale(2)
-
         
         // HUD
 
@@ -67,6 +63,9 @@ export class ForestScene extends Phaser.Scene {
         this.heart3 = this.add.image(306, 176, "heart").setDepth(1).setScrollFactor(0)
         this.scoreCoin = this.add.image(270, 200, "coin").setDepth(1).setScrollFactor(0)
         this.displayScore = this.add.text(286, 193, "0").setDepth(1).setScrollFactor(0)
+
+
+        // tutorial
 
         let tutorialButton = this.add.image(280, 434, "tutorialButton").setDepth(1).setScrollFactor(0).setScale(1.4)
         
@@ -100,7 +99,7 @@ export class ForestScene extends Phaser.Scene {
         this.player.setSize(PLAYER_X, PLAYER_Y, true)
 
 
-        // add monster
+        // add monsters
 
         const SIZE_MONSTER_X = 15
         const SIZE_MONSTER_Y = 15
@@ -130,7 +129,7 @@ export class ForestScene extends Phaser.Scene {
         this.monster4.anims.play("king_monster_left", true) 
         
         
-        // add coin        
+        // add coins      
 
         const COIN_X = 15
         const COIN_Y = 17
@@ -147,28 +146,24 @@ export class ForestScene extends Phaser.Scene {
         this.coin3.setSize(COIN_X, COIN_Y, true)
         this.collectedCoin3 = false
 
-        // chest
-
-        this.chest = this.physics.add.image(850, 350, "chest").setScale(0.8).setDepth(0)
-        this.chest.setCollideWorldBounds(true)
-        this.physics.add.collider(this.chest, this.platforms)
-        this.physics.add.overlap(this.player, this.chest, this.handlePlayerChestCollision, null, this)
-
-
-        // key
-
-        this.key = this.physics.add.sprite(950, 80, "key").setScale(1).setDepth(0)
-        this.key.setSize(8, 15, true)
-        this.key.setCollideWorldBounds(true)
-        this.physics.add.collider(this.key, this.platforms)
-        this.physics.add.overlap(this.player, this.key, this.handlePlayerKeyCollision, null, this)
-
-
 
         // collisions
 
+            // player
+
         this.player.setCollideWorldBounds(true)
         this.physics.add.collider(this.player, this.platforms)
+
+        this.physics.add.collider(this.player, this.monster, this.handlePlayerEnemyCollision, null, this)
+        this.physics.add.collider(this.player, this.monster2, this.handlePlayerEnemyCollision2, null, this)
+        this.physics.add.collider(this.player, this.monster3, this.handlePlayerEnemyCollision3, null, this)
+        this.physics.add.collider(this.player, this.monster4, this.handlePlayerEnemyCollision4, null, this)
+
+        this.physics.add.collider(this.player, this.coin, this.collectCoin, null, this)
+        this.physics.add.collider(this.player, this.coin2, this.collectCoin2, null, this)
+        this.physics.add.collider(this.player, this.coin3, this.collectCoin3, null, this)
+
+            // monsters
 
         this.monster.setCollideWorldBounds(true)
         this.physics.add.collider(this.monster, this.platforms)
@@ -182,6 +177,7 @@ export class ForestScene extends Phaser.Scene {
         this.monster4.setCollideWorldBounds(true)
         this.physics.add.collider(this.monster4, this.platforms)
 
+            // coins
 
         this.coin.setCollideWorldBounds(true)
         this.physics.add.collider(this.coin, this.platforms)
@@ -193,31 +189,35 @@ export class ForestScene extends Phaser.Scene {
         this.physics.add.collider(this.coin3, this.platforms)
 
 
-        this.physics.add.collider(this.player, this.monster, this.handlePlayerEnemyCollision, null, this)
-        this.physics.add.collider(this.player, this.monster2, this.handlePlayerEnemyCollision2, null, this)
-        this.physics.add.collider(this.player, this.monster3, this.handlePlayerEnemyCollision3, null, this)
-        this.physics.add.collider(this.player, this.monster4, this.handlePlayerEnemyCollision4, null, this)
+        // add chest + collisions
+
+        this.chest = this.physics.add.image(850, 350, "chest").setScale(0.8).setDepth(0)
+        this.chest.setCollideWorldBounds(true)
+        this.physics.add.collider(this.chest, this.platforms)
+        this.physics.add.overlap(this.player, this.chest, this.handlePlayerChestCollision, null, this)
 
 
-        this.physics.add.collider(this.player, this.coin, this.collectCoin, null, this)
-        this.physics.add.collider(this.player, this.coin2, this.collectCoin2, null, this)
-        this.physics.add.collider(this.player, this.coin3, this.collectCoin3, null, this)
+        // add key + collisions
 
+        this.key = this.physics.add.sprite(950, 80, "key").setScale(1).setDepth(0)
+        this.key.setSize(8, 15, true)
+        this.key.setCollideWorldBounds(true)
+        this.physics.add.collider(this.key, this.platforms)
+        this.physics.add.overlap(this.player, this.key, this.handlePlayerKeyCollision, null, this)
+
+
+        // add portal + collisions
+
+        this.portal = this.physics.add.sprite(780, 348, "portal").setScale(2)
+        this.portal.setCollideWorldBounds(true)
+        this.physics.add.collider(this.portal, this.platforms)
+        this.physics.add.overlap(this.player, this.portal, this.handlePlayerPortalCollision, null, this)
 
         // fix camera to player
 
         this.cameras.main.startFollow(this.player)
         this.cameras.main.setBounds(0, 0, 1000, 480)
         this.cameras.main.setZoom(2, 2)
-
-        // portal
-
-        this.portal.setCollideWorldBounds(true)
-        this.physics.add.collider(this.portal, this.platforms)
-        this.physics.add.overlap(this.player, this.portal, this.handlePlayerPortalCollision, null, this)
-
-
-
 
     }
 
@@ -242,8 +242,8 @@ export class ForestScene extends Phaser.Scene {
         this.player.body.velocity.x = 0
         
 
-        if (cursors.left.isDown) {
-
+        if (cursors.left.isDown) 
+        {
             this.player.setVelocityX(-SPEED_PLAYER)
             
             if(this.player.body.touching.down){
@@ -279,15 +279,13 @@ export class ForestScene extends Phaser.Scene {
             this.player.anims.stop()
         }
         
-            // monster
+        // monster
 
         if (this.monsterAlive) {
             this.monster.anims.play("idle_monster", true) 
         }    
         else if(!this.monsterAlive) {
             this.monster.destroy()
-
-            //this.spawnDead()
         }
 
         if (this.monster2Alive) {
@@ -349,7 +347,7 @@ export class ForestScene extends Phaser.Scene {
         }
         
 
-            // coin
+        // coin
 
         if (!this.collectedCoin1) 
         {
@@ -378,10 +376,11 @@ export class ForestScene extends Phaser.Scene {
             this.coin3.destroy()
         }
 
+        // monster coins
+
         if (this.collectedcoinDrop) 
         {
             this.coinDrop.destroy()
-
             this.collectedcoinDrop = false
         }
 
@@ -402,33 +401,15 @@ export class ForestScene extends Phaser.Scene {
 
         
 
-        // lose health
+        // health
 
-        if (this.health === 3) {
-            this.heart3.visible = true
-            this.heart2.visible = true
-            this.heart1.visible = true
-        }
-        else if (this.health === 2) {
-            this.heart3.visible = false
-            this.heart2.visible = true
-            this.heart1.visible = true
-        }
-        else if (this.health === 1) {
-            this.heart3.visible = false
-            this.heart2.visible = false
-            this.heart1.visible = true
-        }
-        else if (this.health === 0) {
-            this.heart3.visible = false
-            this.heart2.visible = false
-            this.heart1.visible = false
-        }
+        this.checkHealth()
 
 
         // portal
 
         this.portal.anims.play("portal", true)
+
 
         // shot
 
@@ -444,13 +425,11 @@ export class ForestScene extends Phaser.Scene {
         if(this.health <= 0)
         {
             this.scene.pause()
-
             this.scene.launch(CST.SCENES.GAMEOVER)
         }
 
 
         // key
-
 
         if(this.gotKey === false) 
         {
@@ -460,8 +439,6 @@ export class ForestScene extends Phaser.Scene {
         {
             this.key.destroy()
         }
-        
-
         
     }
 
@@ -489,6 +466,30 @@ export class ForestScene extends Phaser.Scene {
         okButton.on("pointerout", () => {
             this.pressedButton.setVisible(false);
         })
+    }
+
+    checkHealth()
+    {
+        if (this.health === 3) {
+            this.heart3.visible = true
+            this.heart2.visible = true
+            this.heart1.visible = true
+        }
+        else if (this.health === 2) {
+            this.heart3.visible = false
+            this.heart2.visible = true
+            this.heart1.visible = true
+        }
+        else if (this.health === 1) {
+            this.heart3.visible = false
+            this.heart2.visible = false
+            this.heart1.visible = true
+        }
+        else if (this.health === 0) {
+            this.heart3.visible = false
+            this.heart2.visible = false
+            this.heart1.visible = false
+        }
     }
 
     shoot() 
@@ -523,6 +524,7 @@ export class ForestScene extends Phaser.Scene {
 
     }
 
+    // collision with enemy
     
     handlePlayerEnemyCollision() 
     {
@@ -539,9 +541,7 @@ export class ForestScene extends Phaser.Scene {
         })
 
         this.monsterAlive = false
-
         this.health -= 1;
-    
     }
 
     handlePlayerEnemyCollision2() 
@@ -559,7 +559,6 @@ export class ForestScene extends Phaser.Scene {
         })
 
         this.monster2Alive = false
-
         this.health -= 1
     }
 
@@ -578,7 +577,6 @@ export class ForestScene extends Phaser.Scene {
         })
 
         this.monster3Alive = false
-
         this.health -= 1
     }
 
@@ -597,8 +595,25 @@ export class ForestScene extends Phaser.Scene {
         })
 
         this.monster4Alive = false
-
         this.health -= 1
+    }
+
+    // coins
+
+    dropCoin(x, y)
+    {
+        var monsterX = x
+        var monsterY = y
+
+        this.coinDrop = this.physics.add.sprite(monsterX, monsterY  - 30, "coin")
+        this.coinDrop.setSize(15, 17, true)
+        this.collectedcoinDrop = false
+
+        this.physics.add.collider(this.player, this.coinDrop, this.collectcoinDrop, null, this)
+        this.physics.add.collider(this.platforms, this.coinDrop)
+        this.coinDrop.body.bounce.set(0.8)
+        this.coinDrop.body.gravity.set(0, 40)
+        this.coinDrop.anims.play("spinning", true)
     }
     
     collectCoin() 
@@ -619,12 +634,16 @@ export class ForestScene extends Phaser.Scene {
         this.score += 1
     }
 
+    // monster coins
+
     collectcoinDrop() 
     {
         this.collectedcoinDrop = true
         this.score += 1
     }
 
+
+    // shot
 
     handleShotPlatformsCollision() 
     {
@@ -663,6 +682,8 @@ export class ForestScene extends Phaser.Scene {
         this.dropCoin(this.monster4.x, this.monster4.y)
     }
 
+    // portal
+
     handlePlayerPortalCollision() 
     {
         
@@ -674,15 +695,7 @@ export class ForestScene extends Phaser.Scene {
         }
     }
 
-    throwBomb()
-    {
-        this.bomb.startFollow({
-            duration: 3000,
-            yoyo: false,
-            ease: 'Sine.easeInOut'
-        });
-    }
-
+    // chest
 
     handlePlayerChestCollision()
     {
@@ -730,7 +743,7 @@ export class ForestScene extends Phaser.Scene {
         this.coinDrop2.setSize(15, 17, true)
         this.collectedcoinDrop2 = false
 
-        this.sparkle = this.add.sprite(this.coinDrop2.x-2, this.coinDrop2.y+2, "sparkle").setDepth(0)
+        this.sparkle = this.add.sprite(this.coinDrop2.x-1, this.coinDrop2.y+1, "sparkle").setDepth(0)
         this.sparkle.anims.play("sparkle", false)
 
         this.physics.add.collider(this.player, this.coinDrop2, this.collectcoinDrop2, null, this)
@@ -744,28 +757,5 @@ export class ForestScene extends Phaser.Scene {
         this.score += 5
     }
 
-    spawnDead()
-    {
-       
-        let deadMonster = this.add.sprite(420, 312, "monster-dead")
-        deadMonster.anims.play("dead", false)
-    }
-
-
-    dropCoin(x, y)
-    {
-        var monsterX = x
-        var monsterY = y
-
-        this.coinDrop = this.physics.add.sprite(monsterX, monsterY  - 30, "coin")
-        this.coinDrop.setSize(15, 17, true)
-        this.collectedcoinDrop = false
-
-        this.physics.add.collider(this.player, this.coinDrop, this.collectcoinDrop, null, this)
-        this.physics.add.collider(this.platforms, this.coinDrop)
-        this.coinDrop.body.bounce.set(0.8)
-        this.coinDrop.body.gravity.set(0, 40)
-        this.coinDrop.anims.play("spinning", true)
-    }
 }
 
