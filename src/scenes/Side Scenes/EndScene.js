@@ -16,6 +16,9 @@ export class EndScene extends Phaser.Scene
 
     create()
     {
+
+        this.scene.pause(CST.SCENES.LEVEL1)
+
         this.add.image(500, 300, "level-completed").setScale(3.2)
 
 

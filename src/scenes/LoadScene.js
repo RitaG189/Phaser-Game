@@ -38,6 +38,12 @@ export class LoadScene extends Phaser.Scene
             frameWidth: 32
         })
 
+        this.load.spritesheet("premiumCoin", "./assets/HUD/premium-coin.png", 
+        {
+            frameHeight: 32,
+            frameWidth: 32
+        })
+
 
         // player
         
@@ -62,6 +68,12 @@ export class LoadScene extends Phaser.Scene
             frameHeight: 32
         })
 
+        this.load.spritesheet("king-monster-idle", "assets/Sprites/king.png",
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
         // chest
 
         this.load.image("chest", "assets/Objects/chest.png")
@@ -72,9 +84,21 @@ export class LoadScene extends Phaser.Scene
             frameHeight: 32
         })
 
+        this.load.spritesheet("sparkle", "assets/Objects/sparkle.png", 
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
         // key
 
         this.load.spritesheet("key", "assets/Sprites/key.png",
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
+        this.load.spritesheet("noKey", "assets/Objects/no-key.png",
         {
             frameWidth: 32,
             frameHeight: 32
@@ -94,6 +118,8 @@ export class LoadScene extends Phaser.Scene
 
         this.load.image("right-shot", "assets/Sprites/shot-right.png")
         this.load.image("left-shot", "assets/Sprites/shot-left.png")
+
+        this.load.image("monster_shot", "assets/Sprites/monster-shot.png")
         
 
         // end
@@ -107,6 +133,15 @@ export class LoadScene extends Phaser.Scene
         this.load.image("2-stars", "./assets/HUD/2-stars.png")
         this.load.image("1-stars", "./assets/HUD/1-stars.png")
         this.load.image("0-stars", "./assets/HUD/0-stars.png")
+
+
+        // game over
+
+        this.load.image("tryAgain", "./assets/HUD/repetir.png")
+        this.load.image("tryAgainPressed", "./assets/HUD/repetir-pressed.png")
+
+        this.load.image("menu", "./assets/HUD/menu.png")
+        this.load.image("menuPressed", "./assets/HUD/menu-pressed.png")
 
 
         // create loading bar
@@ -144,6 +179,15 @@ export class LoadScene extends Phaser.Scene
             })
         })
 
+        this.anims.create({
+            key: "premium-spinning",
+            frameRate: 6,
+            repeat: -1, //repeat forever
+            frames: this.anims.generateFrameNumbers("premiumCoin", {
+                frames: [0, 1, 2, 3, 4, 5]
+            })
+        })
+
         // monsters
 
         this.anims.create({
@@ -171,6 +215,16 @@ export class LoadScene extends Phaser.Scene
             frames: this.anims.generateFrameNumbers("king-monster",
             {
                 frames: [6, 7, 8, 9, 10, 11]
+            }),
+            frameRate: 12,
+            repeat: -1,
+        })
+
+        this.anims.create({
+            key: "king_monster_idle",
+            frames: this.anims.generateFrameNumbers("king-monster-idle",
+            {
+                frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
             }),
             frameRate: 12,
             repeat: -1,
@@ -218,8 +272,18 @@ export class LoadScene extends Phaser.Scene
             {
                 frames: [0,1,2,3,4,5,6,7]
             }),
-            frameRate: 5,
-            repeat: -1,
+            frameRate: 10,
+            repeat: 0,
+        })
+
+        this.anims.create({
+            key: "sparkle",
+            frames: this.anims.generateFrameNumbers("sparkle", 
+            {
+                frames: [0,1,2,3,4,5,6]
+            }),
+            frameRate: 10,
+            repeat: 0,
         })
 
         // key
@@ -233,6 +297,17 @@ export class LoadScene extends Phaser.Scene
             frameRate: 8,
             repeat: -1,
         })
+
+        this.anims.create({
+            key: "keyNeeded",
+            frames: this.anims.generateFrameNumbers("noKey", 
+            {
+                frames: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+            }),
+            frameRate: 8,
+            repeat: 0,
+        })
+
 
         // start menu
 
