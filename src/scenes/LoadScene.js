@@ -29,6 +29,9 @@ export class LoadScene extends Phaser.Scene
         this.load.image("okButton", "./assets/HUD/ok_button.png")
         this.load.image("pressedOkButton", "./assets/HUD/pressed_ok_button.png")
 
+        this.load.image("tutorialButton", "./assets/HUD/tutorial.png")
+        this.load.image("tutorialButtonPressed", "./assets/HUD/tutorial-pressed.png")
+
 
         // coin
 
@@ -62,13 +65,19 @@ export class LoadScene extends Phaser.Scene
             frameHeight: 32,
         })
 
-        this.load.spritesheet("king-monster", "assets/Sprites/monster-running.png",
+        this.load.spritesheet("monster-running", "assets/Sprites/monster-running.png",
         {
             frameWidth: 32,
             frameHeight: 32
         })
 
-        this.load.spritesheet("king-monster-idle", "assets/Sprites/king.png",
+        this.load.spritesheet("king-running", "assets/Sprites/king_running.png",
+        {
+            frameWidth: 32,
+            frameHeight: 32
+        })
+
+        this.load.spritesheet("monster-dead", "assets/Sprites/monster_dead.png",
         {
             frameWidth: 32,
             frameHeight: 32
@@ -118,8 +127,6 @@ export class LoadScene extends Phaser.Scene
 
         this.load.image("right-shot", "assets/Sprites/shot-right.png")
         this.load.image("left-shot", "assets/Sprites/shot-left.png")
-
-        this.load.image("monster_shot", "assets/Sprites/monster-shot.png")
         
 
         // end
@@ -201,8 +208,28 @@ export class LoadScene extends Phaser.Scene
         })
 
         this.anims.create({
+            key: "monster_right",
+            frames: this.anims.generateFrameNumbers("monster-running",
+            {
+                frames: [0, 1, 2, 3, 4, 5]
+            }),
+            frameRate: 8,
+            repeat: -1,
+        })
+
+        this.anims.create({
+            key: "monster_left",
+            frames: this.anims.generateFrameNumbers("monster-running",
+            {
+                frames: [6, 7, 8, 9, 10, 11]
+            }),
+            frameRate: 12,
+            repeat: -1,
+        })
+
+        this.anims.create({
             key: "king_monster_right",
-            frames: this.anims.generateFrameNumbers("king-monster",
+            frames: this.anims.generateFrameNumbers("king-running",
             {
                 frames: [0, 1, 2, 3, 4, 5]
             }),
@@ -212,7 +239,7 @@ export class LoadScene extends Phaser.Scene
 
         this.anims.create({
             key: "king_monster_left",
-            frames: this.anims.generateFrameNumbers("king-monster",
+            frames: this.anims.generateFrameNumbers("king-running",
             {
                 frames: [6, 7, 8, 9, 10, 11]
             }),
@@ -221,14 +248,15 @@ export class LoadScene extends Phaser.Scene
         })
 
         this.anims.create({
-            key: "king_monster_idle",
-            frames: this.anims.generateFrameNumbers("king-monster-idle",
+            key: "dead",
+            frames: this.anims.generateFrameNumbers("monster-dead",
             {
-                frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                frames: [0, 1, 2, 3]
             }),
             frameRate: 12,
-            repeat: -1,
+            repeat: 0,
         })
+
 
         // player
 

@@ -25,15 +25,15 @@ export class EndScene extends Phaser.Scene
         const STARS_X = 500, STARS_Y = 274
         const TEXT_X = 530, TEXT_Y = 346
 
-        if(this.score >= 7)
+        if(this.score >= 12)
         {
             this.add.image(STARS_X, STARS_Y, "3-stars").setScale(2)
         }
-        else if(this.score >= 3 && this.score < 5)
+        else if(this.score >= 7 && this.score < 12)
         {
             this.add.image(STARS_X, STARS_Y, "2-stars").setScale(2)
         }
-        else if(this.score >= 2 && this.score < 3)
+        else if(this.score >= 4 && this.score < 7)
         {
             this.add.image(STARS_X, STARS_Y, "1-stars").setScale(2)
         }
